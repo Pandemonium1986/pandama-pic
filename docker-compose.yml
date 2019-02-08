@@ -20,7 +20,10 @@ services:
     restart: on-failure
     stop_grace_period: 30s
     volumes:
-      - "/docker-data/nexus3/nexus-data:/nexus-data"
+      - nexus-data:/nexus-data
 
 networks:
   pandamanet:
+
+volumes:
+  nexus-data:
