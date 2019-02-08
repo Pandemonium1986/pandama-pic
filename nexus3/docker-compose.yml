@@ -1,0 +1,26 @@
+---
+version: "3.7"
+services:
+
+  nexus:
+    container_name: "nexus"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    image: sonatype/nexus3:3.15.2
+    labels:
+      com.pandam-pic.description: "Nexus3 instance"
+    ports:
+      - "8081:8081"
+    networks:
+      - pandamanet
+    restart: on-failure
+    stop_grace_period: 30s
+    volumes:
+      - "/docker-data/nexus3/nexus-data:/nexus-data"
+
+networks:
+  pandamanet:
