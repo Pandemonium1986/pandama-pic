@@ -22,8 +22,30 @@ services:
     volumes:
       - nexus-data:/nexus-data
 
+  jenkins:
+    container_name: "jenkins"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    image: jenkins/jenkins:lts
+    labels:
+      com.pandam-pic.description: "Jenkins2 instance"
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - pandamanet
+    restart: on-failure
+    stop_grace_period: 30s
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
 networks:
   pandamanet:
 
 volumes:
   nexus-data:
+  jenkins_home:
