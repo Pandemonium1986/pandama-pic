@@ -2,6 +2,21 @@
 version: "3.7"
 services:
 
+  portainer:
+    container_name: "portainer"
+    image: portainer/portainer:latest
+    labels:
+      com.pandam-pic.description: "Portainer instance"
+    ports:
+      - "9000:9000"
+    networks:
+      - pandamanet
+    restart: on-failure
+    stop_grace_period: 30s
+    volumes:
+      - portainer-data:/data portainer/portainer
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
   nexus:
     container_name: "nexus"
     healthcheck:
@@ -49,3 +64,4 @@ networks:
 volumes:
   nexus-data:
   jenkins_home:
+  portainer-data:
