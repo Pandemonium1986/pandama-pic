@@ -4,9 +4,9 @@ services:
 
   portainer:
     container_name: "portainer"
-    image: portainer/portainer:latest
+    image: portainer/portainer:1.20.1
     labels:
-      com.pandam-pic.description: "Portainer instance"
+      com.pandama-pic.description: "Portainer instance"
     ports:
       - "9000:9000"
     networks:
@@ -27,7 +27,7 @@ services:
       start_period: 60s
     image: sonatype/nexus3:3.15.2
     labels:
-      com.pandam-pic.description: "Nexus3 instance"
+      com.pandama-pic.description: "Nexus3 instance"
     ports:
       - "8081:8081"
     networks:
@@ -47,7 +47,7 @@ services:
       start_period: 60s
     image: jenkins/jenkins:lts
     labels:
-      com.pandam-pic.description: "Jenkins2 instance"
+      com.pandama-pic.description: "Jenkins2 instance"
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -56,12 +56,44 @@ services:
     restart: on-failure
     stop_grace_period: 30s
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - jenkins-home:/var/jenkins_home
+
+  gitlab:
+    container_name: "gitlab"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    image: gitlab/gitlab-ce:11.7.5-ce.0
+    labels:
+      com.pandama-pic.description: "Gitlab instance"
+    restart: on-failure
+    hostname: '192.168.66.11'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://192.168.66.11'
+        gitlab_rails['gitlab_shell_ssh_port'] = 23
+        # Add any other gitlab.rb configuration here, each on its own line
+    networks:
+      - pandamanet
+    ports:
+      - '80:80'
+      - '443:443'
+      - '23:22'
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
 
 networks:
   pandamanet:
 
 volumes:
   nexus-data:
-  jenkins_home:
+  jenkins-home:
+  gitlab-config:
+  gitlab-logs:
+  gitlab-data:
   portainer-data:
