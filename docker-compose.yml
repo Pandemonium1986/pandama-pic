@@ -87,6 +87,22 @@ services:
       - gitlab-logs:/var/log/gitlab
       - gitlab-data:/var/opt/gitlab
 
+  sonarqube:
+    container_name: "sonarqube"
+    image: sonarqube:7.6-community
+    labels:
+      com.pandama-pic.description: "Sonarqube instance"
+    restart: on-failure
+    networks:
+      - pandamanet
+    ports:
+      - '9001:9000'
+    volumes:
+      - sonarqube-conf:/opt/sonarqube/conf
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-logs:/opt/sonarqube/logs
+      - sonarqube-extensions:/opt/sonarqube/extensions
+
 networks:
   pandamanet:
 
@@ -97,3 +113,7 @@ volumes:
   gitlab-logs:
   gitlab-data:
   portainer-data:
+  sonarqube-conf:
+  sonarqube-data:
+  sonarqube-logs:
+  sonarqube-extensions:
