@@ -11,6 +11,14 @@ Vagrant.configure("2") do |config|
     vb.cpus = 2
   end
 
+  config.vm.provision "docker" do |d|
+    d.pull_images "gitlab/gitlab-ce:latest"
+    d.pull_images "jenkins/jenkins:lts"
+    d.pull_images "portainer/portainer:latest"
+    d.pull_images "sonarqube:latest"
+    d.pull_images "sonatype/nexus3:latest"
+  end
+
   config.vm.hostname = "pandama-pic"
   config.vm.post_up_message = "Starting pandama-pic"
   config.vm.define "pandama-pic"

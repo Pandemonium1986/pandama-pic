@@ -4,7 +4,7 @@ services:
 
   portainer:
     container_name: "portainer"
-    image: portainer/portainer:1.20.1
+    image: portainer/portainer:latest
     labels:
       com.pandama-pic.description: "Portainer instance"
     ports:
@@ -25,7 +25,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
-    image: sonatype/nexus3:3.15.2
+    image: sonatype/nexus3:latest
     labels:
       com.pandama-pic.description: "Nexus3 instance"
     ports:
@@ -66,7 +66,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
-    image: gitlab/gitlab-ce:11.7.5-ce.0
+    image: gitlab/gitlab-ce:latest
     labels:
       com.pandama-pic.description: "Gitlab instance"
     restart: on-failure
@@ -89,7 +89,7 @@ services:
 
   sonarqube:
     container_name: "sonarqube"
-    image: sonarqube:7.6-community
+    image: sonarqube:latest
     labels:
       com.pandama-pic.description: "Sonarqube instance"
     restart: on-failure
