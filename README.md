@@ -1,6 +1,5 @@
 # Pandama-pic
 
-
 ![](https://img.shields.io/github/release/Pandemonium1986/pandama-pic.svg)
 ![](https://img.shields.io/github/repo-size/Pandemonium1986/pandama-pic.svg)
 ![](https://img.shields.io/github/release-date/Pandemonium1986/pandama-pic.svg)
@@ -12,10 +11,11 @@ Generate a software factory using vagrant and docker.
 
 This project start a virtualbox vm from my pandama base box [pandemonium/pandama](https://app.vagrantup.com/pandemonium/boxes/pandama).  
 He gives a software factory, provide by docker with this tools :
-* Nexus 3. (Engage)
-* Jenkins 2. (Soon)
-* Sonarqube 7. (Soon)
-* Gitlab 11.7 (Soon)
+
+-   Nexus 3. (Engage)
+-   Jenkins 2. (Soon)
+-   Sonarqube 7. (Soon)
+-   Gitlab 11.7. (Soon)
 
 ### Prerequisites
 
@@ -51,6 +51,24 @@ If you want to access to the vm after 'up' use
 ```sh
 vagrant ssh
 ```
+
+### Important note
+
+"pandama-pic" is provisioning with the vagrant docker provisioner.  
+We can downloads images use by docker-compose.yml at the beginning on the vagrant up command.  
+He result in the downloading of 1Go of docker images. So be warn if your are on limited network.
+
+## Running the factory
+
+The vagrant box is self contained. To run the factory :
+
+```sh
+cd /vagrant
+docker-compose --project-name "pandama-pic" up -d
+```
+
+If you don't want to use "--project-name" in all commands, export COMPOSE_PROJECT_NAME.  
+Or leave them empty. The default project name witch is the current directory name.
 
 ## Authors
 
