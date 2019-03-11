@@ -37,83 +37,83 @@ services:
     volumes:
       - nexus-data:/nexus-data
 
-  jenkins:
-    container_name: "jenkins"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    image: jenkins/jenkins:lts
-    labels:
-      com.pandama-pic.description: "Jenkins2 instance"
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    networks:
-      - pandamanet
-    restart: on-failure
-    stop_grace_period: 30s
-    volumes:
-      - jenkins-home:/var/jenkins_home
-
-  gitlab:
-    container_name: "gitlab"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    image: gitlab/gitlab-ce:latest
-    labels:
-      com.pandama-pic.description: "Gitlab instance"
-    restart: on-failure
-    hostname: '192.168.66.11'
-    environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://192.168.66.11'
-        gitlab_rails['gitlab_shell_ssh_port'] = 23
-        # Add any other gitlab.rb configuration here, each on its own line
-    networks:
-      - pandamanet
-    ports:
-      - '80:80'
-      - '443:443'
-      - '23:22'
-    volumes:
-      - gitlab-config:/etc/gitlab
-      - gitlab-logs:/var/log/gitlab
-      - gitlab-data:/var/opt/gitlab
-
-  sonarqube:
-    container_name: "sonarqube"
-    image: sonarqube:latest
-    labels:
-      com.pandama-pic.description: "Sonarqube instance"
-    restart: on-failure
-    networks:
-      - pandamanet
-    ports:
-      - '9001:9000'
-    volumes:
-      - sonarqube-conf:/opt/sonarqube/conf
-      - sonarqube-data:/opt/sonarqube/data
-      - sonarqube-logs:/opt/sonarqube/logs
-      - sonarqube-extensions:/opt/sonarqube/extensions
+  # jenkins:
+  #   container_name: "jenkins"
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:8080"]
+  #     interval: 1m30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 60s
+  #   image: jenkins/jenkins:lts
+  #   labels:
+  #     com.pandama-pic.description: "Jenkins2 instance"
+  #   ports:
+  #     - "8080:8080"
+  #     - "50000:50000"
+  #   networks:
+  #     - pandamanet
+  #   restart: on-failure
+  #   stop_grace_period: 30s
+  #   volumes:
+  #     - jenkins-home:/var/jenkins_home
+  #
+  # gitlab:
+  #   container_name: "gitlab"
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost"]
+  #     interval: 1m30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 60s
+  #   image: gitlab/gitlab-ce:latest
+  #   labels:
+  #     com.pandama-pic.description: "Gitlab instance"
+  #   restart: on-failure
+  #   hostname: '192.168.66.11'
+  #   environment:
+  #     GITLAB_OMNIBUS_CONFIG: |
+  #       external_url 'http://192.168.66.11'
+  #       gitlab_rails['gitlab_shell_ssh_port'] = 23
+  #       # Add any other gitlab.rb configuration here, each on its own line
+  #   networks:
+  #     - pandamanet
+  #   ports:
+  #     - '80:80'
+  #     - '443:443'
+  #     - '23:22'
+  #   volumes:
+  #     - gitlab-config:/etc/gitlab
+  #     - gitlab-logs:/var/log/gitlab
+  #     - gitlab-data:/var/opt/gitlab
+  #
+  # sonarqube:
+  #   container_name: "sonarqube"
+  #   image: sonarqube:latest
+  #   labels:
+  #     com.pandama-pic.description: "Sonarqube instance"
+  #   restart: on-failure
+  #   networks:
+  #     - pandamanet
+  #   ports:
+  #     - '9001:9000'
+  #   volumes:
+  #     - sonarqube-conf:/opt/sonarqube/conf
+  #     - sonarqube-data:/opt/sonarqube/data
+  #     - sonarqube-logs:/opt/sonarqube/logs
+  #     - sonarqube-extensions:/opt/sonarqube/extensions
 
 networks:
   pandamanet:
 
 volumes:
   nexus-data:
-  jenkins-home:
-  gitlab-config:
-  gitlab-logs:
-  gitlab-data:
+  # jenkins-home:
+  # gitlab-config:
+  # gitlab-logs:
+  # gitlab-data:
   portainer-data:
-  sonarqube-conf:
-  sonarqube-data:
-  sonarqube-logs:
-  sonarqube-extensions:
+  # sonarqube-conf:
+  # sonarqube-data:
+  # sonarqube-logs:
+  # sonarqube-extensions:
