@@ -5,14 +5,22 @@ services:
   portainer:
     container_name: "portainer"
     command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$CK46lzzyNyz.GW7Ic9mHtes9QYkMbIlWCBQXMNU7pyKsem8WZnTw6'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000"]
+      interval: 5m
+      timeout: 30s
+      retries: 3
+      start_period: 60s
     image: portainer/portainer:latest
     labels:
-      com.pandama-pic.description: "Portainer instance"
+      com.pandama-pic.compose.name: "portainer"
+      com.pandama-pic.compose.description: "Portainer instance"
+    networks:
+      pandama-net:
+        ipv4_address: 172.66.0.10
     ports:
       - "9000:9000"
-    networks:
-      - pandamanet
-    restart: on-failure
+    restart: always
     stop_grace_period: 30s
     volumes:
       - portainer-data:/data portainer/portainer
@@ -20,20 +28,24 @@ services:
 
   nexus:
     container_name: "nexus"
+    depends_on:
+      - portainer
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081"]
-      interval: 1m30s
-      timeout: 10s
+      interval: 5m
+      timeout: 30s
       retries: 3
       start_period: 60s
     image: sonatype/nexus3:latest
     labels:
-      com.pandama-pic.description: "Nexus3 instance"
+      com.pandama-pic.compose.name: "nexus"
+      com.pandama-pic.compose.description: "Nexus 3 instance"
+    networks:
+      pandama-net:
+        ipv4_address: 172.66.0.11
     ports:
       - "8081:8081"
-    networks:
-      - pandamanet
-    restart: on-failure
+    restart: always
     stop_grace_period: 30s
     volumes:
       - nexus-data:/nexus-data
@@ -53,8 +65,8 @@ services:
   #     - "8080:8080"
   #     - "50000:50000"
   #   networks:
-  #     - pandamanet
-  #   restart: on-failure
+  #     - pandama-net
+  #   restart: always
   #   stop_grace_period: 30s
   #   volumes:
   #     - jenkins-home:/var/jenkins_home
@@ -70,7 +82,7 @@ services:
   #   image: gitlab/gitlab-ce:latest
   #   labels:
   #     com.pandama-pic.description: "Gitlab instance"
-  #   restart: on-failure
+  #   restart: always
   #   hostname: '192.168.66.11'
   #   environment:
   #     GITLAB_OMNIBUS_CONFIG: |
@@ -78,7 +90,7 @@ services:
   #       gitlab_rails['gitlab_shell_ssh_port'] = 23
   #       # Add any other gitlab.rb configuration here, each on its own line
   #   networks:
-  #     - pandamanet
+  #     - pandama-net
   #   ports:
   #     - '80:80'
   #     - '443:443'
@@ -93,9 +105,9 @@ services:
   #   image: sonarqube:latest
   #   labels:
   #     com.pandama-pic.description: "Sonarqube instance"
-  #   restart: on-failure
+  #   restart: always
   #   networks:
-  #     - pandamanet
+  #     - pandama-net
   #   ports:
   #     - '9001:9000'
   #   volumes:
@@ -105,15 +117,27 @@ services:
   #     - sonarqube-extensions:/opt/sonarqube/extensions
 
 networks:
-  pandamanet:
+  pandama-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.66.0.0/16
+    name: pandama-net
 
 volumes:
   nexus-data:
+    labels:
+      com.pandama-pic.compose.description: "Store Nexus application data"
+    name: nexus-data
   # jenkins-home:
   # gitlab-config:
   # gitlab-logs:
   # gitlab-data:
   portainer-data:
+    labels:
+      com.pandama-pic.compose.description: "Store Portainer application data"
+    name: portainer-data
   # sonarqube-conf:
   # sonarqube-data:
   # sonarqube-logs:
