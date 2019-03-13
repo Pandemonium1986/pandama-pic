@@ -7,8 +7,7 @@ services:
     command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$CK46lzzyNyz.GW7Ic9mHtes9QYkMbIlWCBQXMNU7pyKsem8WZnTw6'
     image: portainer/portainer:latest
     labels:
-      com.pandama-pic.compose.name: "portainer"
-      com.pandama-pic.compose.description: "Portainer instance"
+      com.pandama-pic.status: "development"
     networks:
       pandama-net:
         # ipv4_address: 172.66.0.10
@@ -32,8 +31,7 @@ services:
       start_period: 60s
     image: sonatype/nexus3:latest
     labels:
-      com.pandama-pic.compose.name: "nexus"
-      com.pandama-pic.compose.description: "Nexus 3 instance"
+      com.pandama-pic.status: "development"
     networks:
       pandama-net:
         # ipv4_address: 172.66.0.11
@@ -118,11 +116,13 @@ networks:
     #   config:
     #     - subnet: 172.66.0.0/16
     name: pandama-net
+    labels:
+      com.pandama-pic.status: "development"
 
 volumes:
   nexus-data:
     labels:
-      com.pandama-pic.compose.description: "Store Nexus application data"
+      com.pandama-pic.status: "development"
     name: nexus-data
   # jenkins-home:
   # gitlab-config:
@@ -130,7 +130,7 @@ volumes:
   # gitlab-data:
   portainer-data:
     labels:
-      com.pandama-pic.compose.description: "Store Portainer application data"
+      com.pandama-pic.status: "stable"
     name: portainer-data
   # sonarqube-conf:
   # sonarqube-data:
