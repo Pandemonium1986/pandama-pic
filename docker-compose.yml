@@ -4,7 +4,7 @@ services:
 
   portainer:
     container_name: "portainer"
-    command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$CK46lzzyNyz.GW7Ic9mHtes9QYkMbIlWCBQXMNU7pyKsem8WZnTw6'
+    command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$EemWf3aAeyOLC5wfblQNXeauyQ2.x.lgoDz85/bAnI.Vi7NeOBMTu'
     image: portainer/portainer:latest
     labels:
       com.pandama-pic.status: "development"
