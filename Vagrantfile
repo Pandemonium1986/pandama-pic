@@ -19,6 +19,10 @@ Vagrant.configure("2") do |config|
     d.pull_images "sonatype/nexus3:latest"
   end
 
+  config.vm.provision "updater", type: "shell", run: "once" do |s|
+    s.path = "shell-provisioner/update.sh"
+  end
+
   config.vm.hostname = "pandama-pic"
   config.vm.post_up_message = "Starting pandama-pic"
   config.vm.define "pandama-pic"
