@@ -5,6 +5,7 @@ services:
   portainer:
     container_name: "portainer"
     command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$EemWf3aAeyOLC5wfblQNXeauyQ2.x.lgoDz85/bAnI.Vi7NeOBMTu'
+    hostname: portainer
     image: portainer/portainer:latest
     labels:
       com.pandama-pic.status: "development"
@@ -18,7 +19,6 @@ services:
     volumes:
       - portainer-data:/data
       - "/var/run/docker.sock:/var/run/docker.sock"
-    hostname: portainer
 
   nexus:
     container_name: "nexus"
@@ -30,6 +30,7 @@ services:
       timeout: 30s
       retries: 3
       start_period: 60s
+    hostname: nexus
     image: sonatype/nexus3:latest
     labels:
       com.pandama-pic.status: "development"
@@ -42,7 +43,6 @@ services:
     stop_grace_period: 30s
     volumes:
       - nexus-data:/nexus-data
-    hostname: nexus
 
   # jenkins:
   #   container_name: "jenkins"
