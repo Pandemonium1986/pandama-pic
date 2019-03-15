@@ -10,8 +10,7 @@ services:
     labels:
       com.pandama-pic.status: "development"
     networks:
-      pandama-net:
-        # ipv4_address: 172.66.0.10
+      - pandama-net
     ports:
       - "9000:9000"
     restart: always
@@ -35,8 +34,7 @@ services:
     labels:
       com.pandama-pic.status: "development"
     networks:
-      pandama-net:
-        # ipv4_address: 172.66.0.11
+      - pandama-net
     ports:
       - "8081:8081"
     restart: always
@@ -44,27 +42,30 @@ services:
     volumes:
       - nexus-data:/nexus-data
 
-  # jenkins:
-  #   container_name: "jenkins"
-  #   healthcheck:
-  #     test: ["CMD", "curl", "-f", "http://localhost:8080"]
-  #     interval: 1m30s
-  #     timeout: 10s
-  #     retries: 3
-  #     start_period: 60s
-  #   image: jenkins/jenkins:lts
-  #   labels:
-  #     com.pandama-pic.description: "Jenkins2 instance"
-  #   ports:
-  #     - "8080:8080"
-  #     - "50000:50000"
-  #   networks:
-  #     - pandama-net
-  #   restart: always
-  #   stop_grace_period: 30s
-  #   volumes:
-  #     - jenkins-home:/var/jenkins_home
-  #
+  jenkins:
+    container_name: "jenkins"
+    depends_on:
+      - portainer
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 90s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    hostname: jenkins
+    image: jenkins/jenkins:lts
+    labels:
+      com.pandama-pic.status: "development"
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - pandama-net
+    restart: always
+    stop_grace_period: 30s
+    volumes:
+      - jenkins-home:/var/jenkins_home
+
   # gitlab:
   #   container_name: "gitlab"
   #   healthcheck:
@@ -122,19 +123,23 @@ networks:
       com.pandama-pic.status: "development"
 
 volumes:
+  # gitlab-config:
+  # gitlab-logs:
+  # gitlab-data:
+  jenkins-home:
+    labels:
+      com.pandama-pic.status: "development"
+    name: jenkins-home
   nexus-data:
     labels:
       com.pandama-pic.status: "development"
     name: nexus-data
-  # jenkins-home:
-  # gitlab-config:
-  # gitlab-logs:
-  # gitlab-data:
   portainer-data:
     labels:
       com.pandama-pic.status: "stable"
     name: portainer-data
+
   # sonarqube-conf:
   # sonarqube-data:
-  # sonarqube-logs:
   # sonarqube-extensions:
+  # sonarqube-logs:
