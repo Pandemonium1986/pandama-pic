@@ -94,22 +94,32 @@ services:
   #     - gitlab-config:/etc/gitlab
   #     - gitlab-logs:/var/log/gitlab
   #     - gitlab-data:/var/opt/gitlab
-  #
-  # sonarqube:
-  #   container_name: "sonarqube"
-  #   image: sonarqube:latest
-  #   labels:
-  #     com.pandama-pic.description: "Sonarqube instance"
-  #   restart: always
-  #   networks:
-  #     - pandama-net
-  #   ports:
-  #     - '9001:9000'
-  #   volumes:
-  #     - sonarqube-conf:/opt/sonarqube/conf
-  #     - sonarqube-data:/opt/sonarqube/data
-  #     - sonarqube-logs:/opt/sonarqube/logs
-  #     - sonarqube-extensions:/opt/sonarqube/extensions
+
+  sonarqube:
+    container_name: "sonarqube"
+    depends_on:
+      - portainer
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081"]
+      interval: 90s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    hostname: sonarqube
+    image: sonarqube:latest
+    labels:
+      com.pandama-pic.status: "development"
+    networks:
+      - pandama-net
+    ports:
+      - '9001:9000'
+    restart: always
+    stop_grace_period: 30s
+    volumes:
+      - sonarqube-conf:/opt/sonarqube/conf
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-logs:/opt/sonarqube/logs
 
 networks:
   pandama-net:
@@ -138,8 +148,19 @@ volumes:
     labels:
       com.pandama-pic.status: "stable"
     name: portainer-data
-
-  # sonarqube-conf:
-  # sonarqube-data:
-  # sonarqube-extensions:
-  # sonarqube-logs:
+  sonarqube-conf:
+    labels:
+      com.pandama-pic.status: "development"
+    name: sonarqube-conf
+  sonarqube-data:
+    labels:
+      com.pandama-pic.status: "development"
+    name: sonarqube-data
+  sonarqube-extensions:
+    labels:
+      com.pandama-pic.status: "development"
+    name: sonarqube-extensions
+  sonarqube-logs:
+    labels:
+      com.pandama-pic.status: "development"
+    name: sonarqube-logs
