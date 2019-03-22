@@ -66,34 +66,36 @@ services:
     volumes:
       - jenkins-home:/var/jenkins_home
 
-  # gitlab:
-  #   container_name: "gitlab"
-  #   healthcheck:
-  #     test: ["CMD", "curl", "-f", "http://localhost"]
-  #     interval: 1m30s
-  #     timeout: 10s
-  #     retries: 3
-  #     start_period: 60s
-  #   image: gitlab/gitlab-ce:latest
-  #   labels:
-  #     com.pandama-pic.description: "Gitlab instance"
-  #   restart: always
-  #   hostname: '192.168.66.11'
-  #   environment:
-  #     GITLAB_OMNIBUS_CONFIG: |
-  #       external_url 'http://192.168.66.11'
-  #       gitlab_rails['gitlab_shell_ssh_port'] = 23
-  #       # Add any other gitlab.rb configuration here, each on its own line
-  #   networks:
-  #     - pandama-net
-  #   ports:
-  #     - '80:80'
-  #     - '443:443'
-  #     - '23:22'
-  #   volumes:
-  #     - gitlab-config:/etc/gitlab
-  #     - gitlab-logs:/var/log/gitlab
-  #     - gitlab-data:/var/opt/gitlab
+  gitlab:
+    container_name: "gitlab"
+    depends_on:
+      - portainer
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://192.168.66.11'
+        gitlab_rails['gitlab_shell_ssh_port'] = 23
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 90s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    hostname: "192.168.66.11"
+    image: gitlab/gitlab-ce:latest
+    labels:
+      com.pandama-pic.status: "development"
+    networks:
+      - pandama-net
+    ports:
+      - '80:80'
+      - '443:443'
+      - '23:22'
+    restart: always
+    stop_grace_period: 30s
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
 
   sonarqube:
     container_name: "sonarqube"
@@ -133,9 +135,18 @@ networks:
       com.pandama-pic.status: "development"
 
 volumes:
-  # gitlab-config:
-  # gitlab-logs:
-  # gitlab-data:
+  gitlab-config:
+    labels:
+      com.pandama-pic.status: "development"
+    name: gitlab-config
+  gitlab-data:
+    labels:
+      com.pandama-pic.status: "development"
+    name: gitlab-data
+  gitlab-logs:
+    labels:
+      com.pandama-pic.status: "development"
+    name: gitlab-logs
   jenkins-home:
     labels:
       com.pandama-pic.status: "development"
