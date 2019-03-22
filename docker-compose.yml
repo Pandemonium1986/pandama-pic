@@ -100,7 +100,7 @@ services:
     depends_on:
       - portainer
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8081"]
+      test: ["CMD", "curl", "-f", "http://localhost:9000"]
       interval: 90s
       timeout: 30s
       retries: 3
