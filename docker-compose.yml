@@ -4,84 +4,94 @@ services:
 
   portainer:
     container_name: "portainer"
+    command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$EemWf3aAeyOLC5wfblQNXeauyQ2.x.lgoDz85/bAnI.Vi7NeOBMTu'
+    hostname: portainer
     image: portainer/portainer:latest
     labels:
-      com.pandama-pic.description: "Portainer instance"
+      com.pandama-pic.status: "development"
+    networks:
+      - pandama-net
     ports:
       - "9000:9000"
-    networks:
-      - pandamanet
-    restart: on-failure
+    restart: always
     stop_grace_period: 30s
     volumes:
-      - portainer-data:/data portainer/portainer
+      - portainer-data:/data
       - "/var/run/docker.sock:/var/run/docker.sock"
 
   nexus:
     container_name: "nexus"
+    depends_on:
+      - portainer
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081"]
-      interval: 1m30s
-      timeout: 10s
+      interval: 90s
+      timeout: 30s
       retries: 3
       start_period: 60s
+    hostname: nexus
     image: sonatype/nexus3:latest
     labels:
-      com.pandama-pic.description: "Nexus3 instance"
+      com.pandama-pic.status: "development"
+    networks:
+      - pandama-net
     ports:
       - "8081:8081"
-    networks:
-      - pandamanet
-    restart: on-failure
+    restart: always
     stop_grace_period: 30s
     volumes:
       - nexus-data:/nexus-data
 
   jenkins:
     container_name: "jenkins"
+    depends_on:
+      - portainer
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
-      interval: 1m30s
-      timeout: 10s
+      interval: 90s
+      timeout: 30s
       retries: 3
       start_period: 60s
+    hostname: jenkins
     image: jenkins/jenkins:lts
     labels:
-      com.pandama-pic.description: "Jenkins2 instance"
+      com.pandama-pic.status: "development"
     ports:
       - "8080:8080"
       - "50000:50000"
     networks:
-      - pandamanet
-    restart: on-failure
+      - pandama-net
+    restart: always
     stop_grace_period: 30s
     volumes:
       - jenkins-home:/var/jenkins_home
 
   gitlab:
     container_name: "gitlab"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    image: gitlab/gitlab-ce:latest
-    labels:
-      com.pandama-pic.description: "Gitlab instance"
-    restart: on-failure
-    hostname: '192.168.66.11'
+    depends_on:
+      - portainer
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://192.168.66.11'
         gitlab_rails['gitlab_shell_ssh_port'] = 23
-        # Add any other gitlab.rb configuration here, each on its own line
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 90s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    hostname: "192.168.66.11"
+    image: gitlab/gitlab-ce:latest
+    labels:
+      com.pandama-pic.status: "development"
     networks:
-      - pandamanet
+      - pandama-net
     ports:
       - '80:80'
       - '443:443'
       - '23:22'
+    restart: always
+    stop_grace_period: 30s
     volumes:
       - gitlab-config:/etc/gitlab
       - gitlab-logs:/var/log/gitlab
@@ -89,31 +99,79 @@ services:
 
   sonarqube:
     container_name: "sonarqube"
+    depends_on:
+      - portainer
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000"]
+      interval: 90s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    hostname: sonarqube
     image: sonarqube:latest
     labels:
-      com.pandama-pic.description: "Sonarqube instance"
-    restart: on-failure
+      com.pandama-pic.status: "development"
     networks:
-      - pandamanet
+      - pandama-net
     ports:
       - '9001:9000'
+    restart: always
+    stop_grace_period: 30s
     volumes:
       - sonarqube-conf:/opt/sonarqube/conf
       - sonarqube-data:/opt/sonarqube/data
-      - sonarqube-logs:/opt/sonarqube/logs
       - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-logs:/opt/sonarqube/logs
 
 networks:
-  pandamanet:
+  pandama-net:
+    driver: bridge
+    # ipam:
+    #   driver: default
+    #   config:
+    #     - subnet: 172.66.0.0/16
+    name: pandama-net
+    labels:
+      com.pandama-pic.status: "development"
 
 volumes:
-  nexus-data:
-  jenkins-home:
   gitlab-config:
-  gitlab-logs:
+    labels:
+      com.pandama-pic.status: "development"
+    name: gitlab-config
   gitlab-data:
+    labels:
+      com.pandama-pic.status: "development"
+    name: gitlab-data
+  gitlab-logs:
+    labels:
+      com.pandama-pic.status: "development"
+    name: gitlab-logs
+  jenkins-home:
+    labels:
+      com.pandama-pic.status: "development"
+    name: jenkins-home
+  nexus-data:
+    labels:
+      com.pandama-pic.status: "development"
+    name: nexus-data
   portainer-data:
+    labels:
+      com.pandama-pic.status: "stable"
+    name: portainer-data
   sonarqube-conf:
+    labels:
+      com.pandama-pic.status: "development"
+    name: sonarqube-conf
   sonarqube-data:
-  sonarqube-logs:
+    labels:
+      com.pandama-pic.status: "development"
+    name: sonarqube-data
   sonarqube-extensions:
+    labels:
+      com.pandama-pic.status: "development"
+    name: sonarqube-extensions
+  sonarqube-logs:
+    labels:
+      com.pandama-pic.status: "development"
+    name: sonarqube-logs

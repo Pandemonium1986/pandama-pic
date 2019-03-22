@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", ip: "192.168.66.11"
 
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "4096"
+    vb.memory = "6144"
     vb.name = "pandama-pic"
     vb.cpus = 2
   end
@@ -17,6 +17,10 @@ Vagrant.configure("2") do |config|
     d.pull_images "portainer/portainer:latest"
     d.pull_images "sonarqube:latest"
     d.pull_images "sonatype/nexus3:latest"
+  end
+
+  config.vm.provision "updater", type: "shell", run: "once" do |s|
+    s.path = "shell-provisioner/update.sh"
   end
 
   config.vm.hostname = "pandama-pic"
