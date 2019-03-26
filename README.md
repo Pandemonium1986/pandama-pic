@@ -50,8 +50,8 @@ Use to measure quality of projects based on SQALE method.
 
 You can read official documentation for installation instruction and read my cheatsheet.  
 
--   [VirtualBox cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Vagrant.md).  
--   [Vagrant cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/VirtualBox.md).  
+-   [VirtualBox cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/VirtualBox.md).  
+-   [Vagrant cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Vagrant.md).  
 -   [Docker Compose cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Docker-Compose.md).  
 
 If you are on windows I strongly recommended you to read those links if you want to used the Wsl (Debian in my case). Otherwise use mintty or cmder for vagrant command execution.
