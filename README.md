@@ -112,6 +112,23 @@ docker-compose up -d
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details
 
 ## Source
+### Documentations
+[Portainer](https://portainer.readthedocs.io/en/stable/)  
+[Gitlab](https://docs.gitlab.com/ce/README.html)  
+[Jenkins](https://jenkins.io/doc/)  
+[Nexus](https://help.sonatype.com/repomanager3)  
+[SonarQube](https://docs.sonarqube.org/latest/)  
 
-<https://docs.gitlab.com/omnibus/docker/>
-<https://portainer.readthedocs.io/en/stable/>
+### Docker images
+[Docker Portainer](https://hub.docker.com/r/portainer/portainer)  
+[Docker Gitlab](https://hub.docker.com/r/gitlab/gitlab-ce/)  
+[Docker Jenkins](https://hub.docker.com/r/jenkins/jenkins)  
+[Docker Nexus](https://hub.docker.com/r/sonatype/nexus3)  
+[Docker SonarQube](https://hub.docker.com/_/sonarqube)  
+
+### Installation
+[Installation Portainer](https://portainer.readthedocs.io/en/stable/deployment.html#deploy-portainer-via-docker-compose)  
+[Installation Gitlab](https://docs.gitlab.com/omnibus/docker/)  
+[Installation Jenkins](https://jenkins.io/doc/book/installing/)  
+[Installation Nexus](https://help.sonatype.com/repomanager3/installation/installation-methods#InstallationMethods-InstallingwithDocker)  
+[Installation SonarQube](https://docs.sonarqube.org/latest/setup/install-server/)  
