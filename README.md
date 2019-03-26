@@ -12,10 +12,36 @@ Generate a software factory using vagrant and docker.
 This project start a virtualbox vm from my pandama base box [pandemonium/pandama](https://app.vagrantup.com/pandemonium/boxes/pandama).  
 He gives a software factory, provide by docker with this tools :
 
--   Nexus 3. (Engage)
--   Jenkins 2. (Soon)
--   Sonarqube 7. (Soon)
--   Gitlab 11.7. (Soon)
+**Portainer (Engage)**  
+
+> Portainer is a lightweight management toolset that allows you
+> to easily build, manage and maintain Docker environments.
+
+Use to manage easily running containers. Currently the software factory is managed and deployed by docker compose and will be managed and deployed into swarm in a next version.  
+
+**Gitlab 11. (Engage)**  
+
+> GitLab is a single application for the entire software development lifecycle. From project planning and source code management to CI/CD, monitoring, and security
+
+Use as the source management code tool.  
+
+**Jenkins 2. (Engage)**  
+
+> Jenkins is an open source automation server with an unparalleled plugin ecosystem to support practically every tool as part of your delivery pipelines. Whether your goal is continuous integration, continuous delivery or something else entirely, Jenkins can help automate it.
+
+Use as the continuous integration tool.  
+
+**Nexus 3. (Engage)**  
+
+> Nexus Repository Manager lets you proxy remote repositories and host internal artifacts. Check out our quick start guides and deep-dive technical articles to help you get the most value out of Nexus Repository.
+
+Use as the components archives tool.  
+
+**Sonarqube 7. (Engage)**  
+
+> SonarQube provides the capability to not only show health of an application but also to highlight issues newly introduced. With a Quality Gate in place, you can fix the leak and therefore improve code quality systematically.
+
+Use to measure quality of projects based on SQALE method.  
 
 ### Prerequisites
 
@@ -24,8 +50,8 @@ He gives a software factory, provide by docker with this tools :
 
 You can read official documentation for installation instruction and read my cheatsheet.  
 
--   [VirtualBox cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Vagrant.md).  
--   [Vagrant cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/VirtualBox.md).  
+-   [VirtualBox cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/VirtualBox.md).  
+-   [Vagrant cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Vagrant.md).  
 -   [Docker Compose cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Docker-Compose.md).  
 
 If you are on windows I strongly recommended you to read those links if you want to used the Wsl (Debian in my case). Otherwise use mintty or cmder for vagrant command execution.
@@ -64,11 +90,18 @@ The vagrant box is self contained. To run the factory :
 
 ```sh
 cd /vagrant
-docker-compose --project-name "pandama-pic" up -d
+docker-compose up -d
 ```
 
-If you don't want to use "--project-name" in all commands, export COMPOSE_PROJECT_NAME.  
-Or leave them empty. The default project name witch is the current directory name.
+## Navigate into the tools
+
+|                   Tools                  |    Fqdn/Ip    |    Ports    |
+| :--------------------------------------: | :-----------: | :---------: |
+|  [Portainer](http://192.168.66.11:9000)  | 192.168.66.11 |     9000    |
+|     [Gitlab 11](http://192.168.66.11)    | 192.168.66.11 | 80, 443, 23 |
+|  [Jenkins 2](http://192.168.66.11:8080)  | 192.168.66.11 |     8080    |
+|   [Nexus 3](http://192.168.66.11:8081)   | 192.168.66.11 |     8081    |
+| [Sonarqube 7](http://192.168.66.11:9001) | 192.168.66.11 |     9001    |
 
 ## Authors
 
@@ -77,3 +110,25 @@ Or leave them empty. The default project name witch is the current directory nam
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details
+
+## Source
+### Documentations
+[Portainer](https://portainer.readthedocs.io/en/stable/)  
+[Gitlab](https://docs.gitlab.com/ce/README.html)  
+[Jenkins](https://jenkins.io/doc/)  
+[Nexus](https://help.sonatype.com/repomanager3)  
+[SonarQube](https://docs.sonarqube.org/latest/)  
+
+### Docker images
+[Docker Portainer](https://hub.docker.com/r/portainer/portainer)  
+[Docker Gitlab](https://hub.docker.com/r/gitlab/gitlab-ce/)  
+[Docker Jenkins](https://hub.docker.com/r/jenkins/jenkins)  
+[Docker Nexus](https://hub.docker.com/r/sonatype/nexus3)  
+[Docker SonarQube](https://hub.docker.com/_/sonarqube)  
+
+### Installation
+[Installation Portainer](https://portainer.readthedocs.io/en/stable/deployment.html#deploy-portainer-via-docker-compose)  
+[Installation Gitlab](https://docs.gitlab.com/omnibus/docker/)  
+[Installation Jenkins](https://jenkins.io/doc/book/installing/)  
+[Installation Nexus](https://help.sonatype.com/repomanager3/installation/installation-methods#InstallationMethods-InstallingwithDocker)  
+[Installation SonarQube](https://docs.sonarqube.org/latest/setup/install-server/)  
