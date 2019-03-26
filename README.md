@@ -90,11 +90,9 @@ The vagrant box is self contained. To run the factory :
 
 ```sh
 cd /vagrant
-docker-compose --project-name "pandama-pic" up -d
+docker-compose up -d
 ```
 
-If you don't want to use "--project-name" in all commands, export COMPOSE_PROJECT_NAME.  
-Or leave them empty. The default project name witch is the current directory name.
 
 ## Authors
 
