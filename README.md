@@ -12,7 +12,7 @@ Generate a software factory using vagrant and docker.
 This project start a virtualbox vm from my pandama base box [pandemonium/pandama](https://app.vagrantup.com/pandemonium/boxes/pandama).  
 He gives a software factory, provide by docker with this tools :
 
-**Portainer (Engage)**  
+**Portainer (Done)**  
 
 > Portainer is a lightweight management toolset that allows you
 > to easily build, manage and maintain Docker environments.
@@ -93,6 +93,24 @@ cd /vagrant
 docker-compose up -d
 ```
 
+## Provisioning and configuring the tools
+
+### Portainer
+
+Simply execute the portainer.sh shell script.  
+He configure portainer with :
+
+-   Rename primary endpoint.
+-   Add Alice, Bob, Charlie users and Dev and Ops teams.
+-   Add Alice and Charlie to Dev team and Bob to Ops team.
+-   Give Dev and Ops team members access to the primary endpoint.
+
+```sh
+cd /vagrant/
+docker-compose up -d
+./portainer/portainer.sh
+```
+
 ## Navigate into the tools
 
 |                   Tools                  |    Fqdn/Ip    |    Ports    |
@@ -112,7 +130,9 @@ docker-compose up -d
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details
 
 ## Source
+
 ### Documentations
+
 [Portainer](https://portainer.readthedocs.io/en/stable/)  
 [Gitlab](https://docs.gitlab.com/ce/README.html)  
 [Jenkins](https://jenkins.io/doc/)  
@@ -120,6 +140,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 [SonarQube](https://docs.sonarqube.org/latest/)  
 
 ### Docker images
+
 [Docker Portainer](https://hub.docker.com/r/portainer/portainer)  
 [Docker Gitlab](https://hub.docker.com/r/gitlab/gitlab-ce/)  
 [Docker Jenkins](https://hub.docker.com/r/jenkins/jenkins)  
@@ -127,6 +148,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 [Docker SonarQube](https://hub.docker.com/_/sonarqube)  
 
 ### Installation
+
 [Installation Portainer](https://portainer.readthedocs.io/en/stable/deployment.html#deploy-portainer-via-docker-compose)  
 [Installation Gitlab](https://docs.gitlab.com/omnibus/docker/)  
 [Installation Jenkins](https://jenkins.io/doc/book/installing/)  
