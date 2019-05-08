@@ -105,9 +105,12 @@ He configure portainer with :
 -   Add Alice and Charlie to Dev team and Bob to Ops team.
 -   Give Dev and Ops team members access to the primary endpoint.
 
+Don't forget to provide the PORTAINER_ADMIN_PASSWORD environment variable  
+
 ```sh
 cd /vagrant/
 docker-compose up -d
+export PORTAINER_ADMIN_PASSWORD=<MY_AWESOME_PASSWORD>
 ./portainer/portainer.sh
 ```
 
