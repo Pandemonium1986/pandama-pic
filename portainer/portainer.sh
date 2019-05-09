@@ -1,10 +1,9 @@
 #!/bin/bash -eu
-###############################
-### Portainer Configuration ###
-###############################
-: <<'COMMENT'
-Quick N' Dirty script for configure portainer docker instance.
-COMMENT
+########################################
+### Portainer : Configuration script ###
+########################################
+#-- Description
+# Quick N' Dirty script for configure Portainer docker instance.
 
 # Don't proceed to anything if PORTAINER_ADMIN_PASSWORD is unset or empty
 if [ -z ${PORTAINER_ADMIN_PASSWORD+x} ] || [ -z "$PORTAINER_ADMIN_PASSWORD" ]
