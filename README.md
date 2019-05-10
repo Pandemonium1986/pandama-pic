@@ -31,7 +31,7 @@ Use as the source management code tool.
 
 Use as the continuous integration tool.  
 
-**Nexus 3. (Engage)**  
+**Nexus 3. (Done)**  
 
 > Nexus Repository Manager lets you proxy remote repositories and host internal artifacts. Check out our quick start guides and deep-dive technical articles to help you get the most value out of Nexus Repository.
 
