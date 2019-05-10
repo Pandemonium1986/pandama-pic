@@ -32,7 +32,7 @@ services:
     hostname: nexus
     image: sonatype/nexus3:latest
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     networks:
       - pandama-net
     ports:
@@ -153,7 +153,7 @@ volumes:
     name: jenkins-home
   nexus-data:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: nexus-data
   portainer-data:
     labels:

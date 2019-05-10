@@ -7,18 +7,11 @@ Configure security for nexus 3.
 
 // -- Main
 
-/**
-// disable anonymous access
-security.setAnonymousAccess(true)
+//----------------------
+// Disable anonymous access
+//----------------------
+security.setAnonymousAccess(false)
 log.info('Anonymous access disabled')
-*/
-
-//----------------------
-// Create new admin user
-//----------------------
-def adminRole = ['nx-admin']
-def pandemonium = security.addUser('michael.maffait', 'Michael', 'Maffait', 'mma@example.com', true, 'changMe123', adminRole)
-log.info('User michael.maffait created')
 
 //----------------------
 // Create a new role that allows a user same access as anonymous and adds healtchcheck access
@@ -26,7 +19,7 @@ log.info('User michael.maffait created')
 def devPrivileges = ['nx-healthcheck-read', 'nx-healthcheck-summary-read']
 def anoRole = ['nx-anonymous']
 // add roles that uses the built in nx-anonymous role as a basis and adds more privileges
-security.addRole('developer', 'Developer', 'User with privileges to allow read access to repo content and healtcheck', devPrivileges, anoRole)
+security.addRole('developer', 'dev', 'User with privileges to allow read access to repo content and healtcheck', devPrivileges, anoRole)
 log.info('Role developer created')
 
 //----------------------
@@ -36,11 +29,14 @@ log.info('Role developer created')
 def depPrivileges = ['nx-repository-view-*-*-add', 'nx-repository-view-*-*-edit', 'nx-component-upload']
 def roles = ['developer']
 // add roles that uses the developer role as a basis and adds more privileges
-security.addRole('deployer', 'Deployer', 'User with privileges to allow deployment all repositories', depPrivileges, roles)
-log.info('Role deployer created')
+security.addRole('operational', 'ops', 'User with privileges to allow deployment all repositories', depPrivileges, roles)
+log.info('Role operational created')
 
-def depRoles = ['deployer']
-def lJenkins = security.addUser('jenkins', 'Leeroy', 'Jenkins', 'leeroy.jenkins@example.com', true, 'changMe789', depRoles)
+def depRoles = ['operational']
+def Jenkins = security.addUser('jenkins', 'Leeroy', 'Jenkins', 'leeroy.jenkins@example.com', true, 'password1*', depRoles)
+def Alice = security.addUser('alice', 'Alice', 'Liddell', 'alice.liddell@example.com', true, 'password1*', ['developer'])
+def Bob = security.addUser('bob', 'Bob', 'Morane', 'bob.morane@example.com', true, 'password1*', depRoles)
+def Charlie = security.addUser('charlie', 'Charlie', 'Hebdo', 'chalie.hebdo@example.com', true, 'password1*', ['developer'])
 log.info('User jenkins created')
 
 log.info('Script security completed successfully')

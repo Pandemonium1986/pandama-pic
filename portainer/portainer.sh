@@ -1,10 +1,9 @@
-#!/bin/bash -u
-###############################
-### Portainer Configuration ###
-###############################
-: <<'COMMENT'
-Quick N' Dirty script for configure portainer docker instance.
-COMMENT
+#!/bin/bash -eu
+########################################
+### Portainer : Configuration script ###
+########################################
+#-- Description
+# Quick N' Dirty script for configure Portainer docker instance.
 
 # Don't proceed to anything if PORTAINER_ADMIN_PASSWORD is unset or empty
 if [ -z ${PORTAINER_ADMIN_PASSWORD+x} ] || [ -z "$PORTAINER_ADMIN_PASSWORD" ]
@@ -34,10 +33,10 @@ http PUT :9000/api/endpoints/1 \
 # Teams
 http POST :9000/api/teams \
   "Authorization: Bearer $PORTAINER_TOKEN" \
-  Name="Dev"
+  Name="dev"
 http POST :9000/api/teams \
   "Authorization: Bearer $PORTAINER_TOKEN" \
-  Name="Ops"
+  Name="ops"
 
 # Users
 http POST :9000/api/users \

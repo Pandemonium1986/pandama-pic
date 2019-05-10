@@ -31,7 +31,7 @@ Use as the source management code tool.
 
 Use as the continuous integration tool.  
 
-**Nexus 3. (Engage)**  
+**Nexus 3. (Done)**  
 
 > Nexus Repository Manager lets you proxy remote repositories and host internal artifacts. Check out our quick start guides and deep-dive technical articles to help you get the most value out of Nexus Repository.
 
@@ -105,10 +105,32 @@ He configure portainer with :
 -   Add Alice and Charlie to Dev team and Bob to Ops team.
 -   Give Dev and Ops team members access to the primary endpoint.
 
+Don't forget to provide the PORTAINER_ADMIN_PASSWORD environment variable  
+
 ```sh
 cd /vagrant/
 docker-compose up -d
+export PORTAINER_ADMIN_PASSWORD=<MY_AWESOME_PASSWORD>
 ./portainer/portainer.sh
+```
+
+### Nexus 3
+
+Simply execute the nexus3.sh shell script.  
+He configure nexus 3 with :
+
+-   Create blobstores, maven and npm repositories.
+-   Add Alice, Bob, Charlie, Jeenkins users and Dev and Ops roles.
+-   Add Alice and Charlie to Dev role and Bob and Jenkins to Ops role.
+-   Disable anonymous access.
+
+Don't forget to provide the NEXUS3_ADMIN_PASSWORD environment variable  
+
+```sh
+cd /vagrant/nexus3
+docker-compose up -d
+export NEXUS3_ADMIN_PASSWORD=<MY_AWESOME_PASSWORD>
+./nexus3.sh
 ```
 
 ## Navigate into the tools

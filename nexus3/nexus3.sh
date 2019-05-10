@@ -1,31 +1,31 @@
 #!/bin/bash -eu
-
 ######################################
-##  Nexus 3 : Provisioning scripts  ##
+### Nexus 3 : Configuration script ###
 ######################################
+#-- Description
+# Quick N' Dirty script for configure Nexus 3 docker instance.
 
-#----------------------#
-#!! Global Variables !!#
-#----------------------#
+# Don't proceed to anything if NEXUS3_ADMIN_PASSWORD is unset or empty
+if [ -z ${NEXUS3_ADMIN_PASSWORD+x} ] || [ -z "$NEXUS3_ADMIN_PASSWORD" ]
+then
+  echo -e "  NEXUS3_ADMIN_PASSWORD is unset or empty
+  Please provided NEXUS3_ADMIN_PASSWORD via :
+  export NEXUS3_ADMIN_PASSWORD=<MY_AWESOME_PASSWORD>
+  "
+  exit 1
+fi
+
+#-- Installing dependencies
+sudo apt install groovy
 
 #-- Nexus 3 Variables
 username=admin
-password=admin123
-host=http://localhost:8081 # add the context if you are not using the root context
+host=http://localhost:8081
+#==============================================================================#
 
-#-- Color Variables
-red=$'\e[1;31m'
-grn=$'\e[1;32m'
-yel=$'\e[1;33m'
-blu=$'\e[1;34m'
-mag=$'\e[1;35m'
-cyn=$'\e[1;36m'
-end=$'\e[0m'
-#===============================================================================#
-
-#############
-# Functions #
-#############
+###############
+## Functions ##
+###############
 
 #-- usage
 # print usage on stdout.
@@ -51,17 +51,17 @@ function addAndRunScript {
   file=$2
   # using grape config that points to local Maven repo and Central Repository , default grape config fails on some downloads although artifacts are in Central
   # change the grapeConfig file to point to your repository manager, if you are already running one in your organization
-  groovy -Dgroovy.grape.report.downloads=false -Dgrape.config=grapeConfig.xml addUpdateScript.groovy -u "$username" -p "$password" -n "$name" -f "$file" -h "$host"
+  groovy -Dgroovy.grape.report.downloads=false -Dgrape.config=grapeConfig.xml addUpdateScript.groovy -u "$username" -p "$NEXUS3_ADMIN_PASSWORD" -n "$name" -f "$file" -h "$host"
   printf "\nPublished $file as $name\n\n"
-  curl -v -X POST -u $username:$password --header "Content-Type: text/plain" "$host/service/rest/v1/script/$name/run"
+  curl -v -X POST -u $username:$NEXUS3_ADMIN_PASSWORD --header "Content-Type: text/plain" "$host/service/rest/v1/script/$name/run"
   printf "\nSuccessfully executed $name script\n\n\n"
 }
 
 #===============================================================================#
 
-########
-# Main #
-########
+##########
+## Main ##
+##########
 if [ $# -eq 0 ]; then
 	echo "Error : You must pass at least one argument" 1>&2
 	usage 1>&2
