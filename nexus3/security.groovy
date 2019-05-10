@@ -36,7 +36,7 @@ def depRoles = ['operational']
 def Jenkins = security.addUser('jenkins', 'Leeroy', 'Jenkins', 'leeroy.jenkins@example.com', true, 'password1*', depRoles)
 def Alice = security.addUser('alice', 'Alice', 'Liddell', 'alice.liddell@example.com', true, 'password1*', ['developer'])
 def Bob = security.addUser('bob', 'Bob', 'Morane', 'bob.morane@example.com', true, 'password1*', depRoles)
-def Charlie = security.addUser('chalie', 'Charlie', 'Hebdo', 'chalie.hebdo@example.com', true, 'password1*', ['developer'])
+def Charlie = security.addUser('charlie', 'Charlie', 'Hebdo', 'chalie.hebdo@example.com', true, 'password1*', ['developer'])
 log.info('User jenkins created')
 
 log.info('Script security completed successfully')
