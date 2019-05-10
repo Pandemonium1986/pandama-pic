@@ -114,6 +114,25 @@ export PORTAINER_ADMIN_PASSWORD=<MY_AWESOME_PASSWORD>
 ./portainer/portainer.sh
 ```
 
+### Nexus 3
+
+Simply execute the nexus3.sh shell script.  
+He configure nexus 3 with :
+
+-   Create blobstores, maven and npm repositories.
+-   Add Alice, Bob, Charlie, Jeenkins users and Dev and Ops roles.
+-   Add Alice and Charlie to Dev role and Bob and Jenkins to Ops role.
+-   Disable anonymous access.
+
+Don't forget to provide the NEXUS3_ADMIN_PASSWORD environment variable  
+
+```sh
+cd /vagrant/nexus3
+docker-compose up -d
+export NEXUS3_ADMIN_PASSWORD=<MY_AWESOME_PASSWORD>
+./nexus3.sh
+```
+
 ## Navigate into the tools
 
 |                   Tools                  |    Fqdn/Ip    |    Ports    |
