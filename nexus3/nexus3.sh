@@ -15,6 +15,9 @@ then
   exit 1
 fi
 
+#-- Installing dependencies
+sudo apt install groovy
+
 #-- Nexus 3 Variables
 username=admin
 host=http://localhost:8081
