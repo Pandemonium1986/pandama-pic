@@ -6,7 +6,7 @@
 # Quick N' Dirty script for configure Portainer docker instance.
 
 # Don't proceed to anything if PORTAINER_ADMIN_PASSWORD is unset or empty
-if [ -z ${PORTAINER_ADMIN_PASSWORD+x} ] || [ -z "$PORTAINER_ADMIN_PASSWORD" ]
+if [ -z "${PORTAINER_ADMIN_PASSWORD+x}" ] || [ -z "$PORTAINER_ADMIN_PASSWORD" ]
 then
   echo -e "  PORTAINER_ADMIN_PASSWORD is unset or empty
   Please provided PORTAINER_ADMIN_PASSWORD via :
@@ -23,7 +23,8 @@ sudo apt install jq
 export PATH="$HOME/.local/bin":$PATH
 
 #-- Portainer configuration
-export PORTAINER_TOKEN=`http POST :9000/api/auth Username="admin" Password="$PORTAINER_ADMIN_PASSWORD" | jq -r .jwt`
+export PORTAINER_TOKEN=""
+PORTAINER_TOKEN=$(http POST :9000/api/auth Username="admin" Password="$PORTAINER_ADMIN_PASSWORD" | jq -r .jwt)
 
 # Renaming endpoint
 http PUT :9000/api/endpoints/1 \
