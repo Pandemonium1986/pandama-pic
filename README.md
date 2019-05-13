@@ -133,6 +133,26 @@ export NEXUS3_ADMIN_PASSWORD=<MY_AWESOME_PASSWORD>
 ./nexus3.sh
 ```
 
+### Quick and Dirty provisioning
+
+Waiting for a better solution ...
+
+```sh
+# From pandemonium environment
+cdpic && vagrant destroy -f && vagrant up && vagrant ssh
+
+# From pandama-pic
+sudo su - pandemonium
+adu && \
+export PORTAINER_ADMIN_PASSWORD="MY_AWESOME_PASSWORD" && \
+export export NEXUS3_ADMIN_PASSWORD="MY_AWESOME_PASSWORD" && \
+cd /vagrant && dco up -d && \
+cd portainer && \
+./portainer.sh && \
+cd ../nexus3 && \
+./nexus3.sh all
+```
+
 ## Navigate into the tools
 
 |                   Tools                  |    Fqdn/Ip    |    Ports    |
