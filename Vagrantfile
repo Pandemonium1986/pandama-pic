@@ -19,8 +19,11 @@ Vagrant.configure("2") do |config|
     d.pull_images "sonatype/nexus3:latest"
   end
 
-  config.vm.provision "updater", type: "shell", run: "once" do |s|
-    s.path = "shell-provisioner/update.sh"
+  # Provisioning configuration
+  config.vm.provision "ansible-pandama-pic", type: "ansible", run: "once" do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.config_file = "ansible-provisioner/ansible.cfg"
+    ansible.playbook = "ansible-provisioner/pandama-pic.yml"
   end
 
   config.vm.hostname = "pandama-pic"
