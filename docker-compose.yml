@@ -2,13 +2,42 @@
 version: "3.7"
 services:
 
+  traefik:
+    container_name: "traefik"
+    # command: --api --docker # Enables the web UI and tells Traefik to listen to docker
+    hostname: traefik
+    image: traefik:v1.7.12 # The official Traefik docker image
+    labels:
+      com.pandama-pic.status: "development"
+      traefik.docker.network: pandama-net
+      traefik.enable: true
+      traefik.frontend.rule: "Host:traefik.docker.local"
+      traefik.port: 8080
+    networks:
+      - pandama-net
+    ports:
+      - "80:80"     # The HTTP port
+    expose:
+      - "8080"
+    restart: always
+    stop_grace_period: 30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./traefik/traefik.toml:/traefik.toml"
+
   portainer:
     container_name: "portainer"
+    depends_on:
+      - traefik
     command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$EemWf3aAeyOLC5wfblQNXeauyQ2.x.lgoDz85/bAnI.Vi7NeOBMTu'
     hostname: portainer
     image: portainer/portainer:latest
     labels:
       com.pandama-pic.status: "stable"
+      traefik.docker.network: pandama-net
+      traefik.enable: true
+      traefik.frontend.rule: "Host:portainer.docker.local"
+      traefik.port: 9000
     networks:
       - pandama-net
     ports:
@@ -33,6 +62,10 @@ services:
     image: sonatype/nexus3:latest
     labels:
       com.pandama-pic.status: "stable"
+      traefik.docker.network: pandama-net
+      traefik.enable: true
+      traefik.frontend.rule: "Host:nexus.docker.local"
+      traefik.port: 8081
     networks:
       - pandama-net
     ports:
@@ -56,6 +89,10 @@ services:
     image: jenkins/jenkins:lts
     labels:
       com.pandama-pic.status: "development"
+      traefik.docker.network: pandama-net
+      traefik.enable: true
+      traefik.frontend.rule: "Host:jenkins.docker.local"
+      traefik.port: 8080
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -84,10 +121,14 @@ services:
     image: gitlab/gitlab-ce:latest
     labels:
       com.pandama-pic.status: "development"
+      traefik.docker.network: pandama-net
+      traefik.enable: true
+      traefik.frontend.rule: "Host:gitlab.docker.local"
+      traefik.port: 80
     networks:
       - pandama-net
     ports:
-      - '80:80'
+      - '81:80'
       - '443:443'
       - '23:22'
     restart: always
@@ -111,6 +152,10 @@ services:
     image: sonarqube:latest
     labels:
       com.pandama-pic.status: "development"
+      traefik.docker.network: pandama-net
+      traefik.enable: true
+      traefik.frontend.rule: "Host:sonar.docker.local"
+      traefik.port: 9000
     networks:
       - pandama-net
     ports:

@@ -6,7 +6,7 @@
 # Quick N' Dirty script for configure Nexus 3 docker instance.
 
 # Don't proceed to anything if NEXUS3_ADMIN_PASSWORD is unset or empty
-if [ -z ${NEXUS3_ADMIN_PASSWORD+x} ] || [ -z "$NEXUS3_ADMIN_PASSWORD" ]
+if [ -z "${NEXUS3_ADMIN_PASSWORD+x}" ] || [ -z "$NEXUS3_ADMIN_PASSWORD" ]
 then
   echo -e "  NEXUS3_ADMIN_PASSWORD is unset or empty
   Please provided NEXUS3_ADMIN_PASSWORD via :
@@ -52,9 +52,9 @@ function addAndRunScript {
   # using grape config that points to local Maven repo and Central Repository , default grape config fails on some downloads although artifacts are in Central
   # change the grapeConfig file to point to your repository manager, if you are already running one in your organization
   groovy -Dgroovy.grape.report.downloads=false -Dgrape.config=grapeConfig.xml addUpdateScript.groovy -u "$username" -p "$NEXUS3_ADMIN_PASSWORD" -n "$name" -f "$file" -h "$host"
-  printf "\nPublished $file as $name\n\n"
-  curl -v -X POST -u $username:$NEXUS3_ADMIN_PASSWORD --header "Content-Type: text/plain" "$host/service/rest/v1/script/$name/run"
-  printf "\nSuccessfully executed $name script\n\n\n"
+  printf "\nPublished %s as %s\n\n" "$file" "$name"
+  curl -v -X POST -u "$username":"$NEXUS3_ADMIN_PASSWORD" --header "Content-Type: text/plain" "$host/service/rest/v1/script/$name/run"
+  printf "\nSuccessfully executed %s script\n\n\n" "$name"
 }
 
 #===============================================================================#
