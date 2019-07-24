@@ -111,6 +111,7 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://192.168.66.11'
         gitlab_rails['gitlab_shell_ssh_port'] = 23
+        gitlab_rails['initial_root_password'] = "password1*"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 90s
