@@ -20,14 +20,33 @@ Vagrant.configure("2") do |config|
     d.pull_images "traefik:v1.7.12"
   end
 
-  # Provisioning configuration
+  # Provisioning the configuration
   config.vm.provision "ansible-pandama-pic", type: "ansible", run: "once" do |ansible|
     ansible.compatibility_mode = "2.0"
     ansible.config_file = "ansible-provisioner/ansible.cfg"
     ansible.playbook = "ansible-provisioner/pandama-pic.yml"
   end
 
+  # Provisioning gitlab
+  config.vm.provision "ansible-gitlab", type: "ansible", run: "never" do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.config_file = "ansible-provisioner/ansible.cfg"
+    ansible.playbook = "ansible-provisioner/gitlab.yml"
+    ansible.host_vars = {
+      "pandama-pic" => {
+        "vagrant_gitlab_api_token" => ENV["GITLAB_API_TOKEN"]
+      }
+    }
+  end
+
   config.vm.hostname = "pandama-pic"
-  config.vm.post_up_message = "Starting pandama-pic"
+  config.vm.post_up_message = "
+########################################################################################
+##                              Starting pandama-pic done                             ##
+##                          Please execute vagrant provision                          ##
+##                            to configure gitlab instance                            ##
+## GITLAB_API_TOKEN=\"MySecretToken\" vagrant provision --provision-with ansible-gitlab ##
+########################################################################################
+"
   config.vm.define "pandama-pic"
 end
