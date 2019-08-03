@@ -4,6 +4,7 @@
   become:                true
   become_method:         sudo
   become_user:           root
+
   vars :
     gitlab_api_token:    "{{ vagrant_gitlab_api_token }}"
     gitlab_external_url: "gitlab.docker.local"
@@ -20,10 +21,9 @@
   #     private:         yes
 
   tasks:
-    - name:           Install python-gitlab
+    - name:              Ensure python-gitlab is installed
       pip:
-        name:         python-gitlab
-
+        name:            python-gitlab
     - name:              "Create Gitlab groups"
       gitlab_group:
         server_url:      "http://{{ gitlab_external_url }}/"
@@ -34,7 +34,6 @@
         description:     "{{ item.description }}"
         visibility:      "private"
       loop:              "{{ gitlab_groups }}"
-
     - name:              "Create Gitlab User"
       gitlab_user:
         server_url:      "http://{{ gitlab_external_url }}/"
