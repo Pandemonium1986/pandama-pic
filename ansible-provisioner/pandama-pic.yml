@@ -1,0 +1,40 @@
+---
+- name :               Pandama-pic installation
+  hosts :              all
+  become:              true
+  become_method:       sudo
+  become_user:         root
+  tasks:
+    - name:            Upgrade all packages to the latest version
+      apt:
+        name:          "*"
+        state:         latest
+        force_apt_get: yes
+        update_cache:  yes
+
+    - name:            Ensure /etc/hosts is update
+      lineinfile:
+        path:          /etc/hosts
+        state:         present
+        insertafter:   '^127.0.1.1'
+        line:          '127.1.1.1 traefik.docker.local portainer.docker.local nexus.docker.local jenkins.docker.local gitlab.docker.local sonar.docker.local'
+
+    - name:            Ensure softwares are configured
+      block:
+        - name:        Ensure oh my zsh is install
+          git:
+            repo:      "https://github.com/robbyrussell/oh-my-zsh"
+            dest:      /home/pandemonium/.oh-my-zsh
+            update:    yes
+        - name:        Ensure tmuxifier is install
+          git:
+            repo:      "https://github.com/jimeh/tmuxifier.git"
+            dest:      /home/pandemonium/.tmuxifier
+            update:    yes
+        - name:        Ensure pandemonium dotfiles are installed
+          git:
+            repo:      "https://github.com/Pandemonium1986/dotfiles"
+            dest:      /home/pandemonium/git/Pandemonium1986/dotfiles
+            update:    yes
+      become:          true
+      become_user:     pandemonium

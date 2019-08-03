@@ -31,7 +31,7 @@ services:
       - traefik
     command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$EemWf3aAeyOLC5wfblQNXeauyQ2.x.lgoDz85/bAnI.Vi7NeOBMTu'
     hostname: portainer
-    image: portainer/portainer:latest
+    image: portainer/portainer:1.21.0
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
@@ -59,7 +59,7 @@ services:
       retries: 3
       start_period: 60s
     hostname: nexus
-    image: sonatype/nexus3:latest
+    image: sonatype/nexus3:3.16.2
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
@@ -111,6 +111,7 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://192.168.66.11'
         gitlab_rails['gitlab_shell_ssh_port'] = 23
+        gitlab_rails['initial_root_password'] = "password1*"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 90s
@@ -120,7 +121,7 @@ services:
     hostname: "192.168.66.11"
     image: gitlab/gitlab-ce:latest
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
       traefik.enable: true
       traefik.frontend.rule: "Host:gitlab.docker.local"
@@ -182,15 +183,15 @@ networks:
 volumes:
   gitlab-config:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: gitlab-config
   gitlab-data:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: gitlab-data
   gitlab-logs:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: gitlab-logs
   jenkins-home:
     labels:

@@ -20,7 +20,7 @@ sudo apt install groovy
 
 #-- Nexus 3 Variables
 username=admin
-host=http://localhost:8081
+host=http://nexus.docker.local
 #==============================================================================#
 
 ###############
