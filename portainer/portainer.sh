@@ -68,4 +68,4 @@ http $HTTP_OPTIONS POST portainer.docker.local/api/team_memberships \
 # Endpoint Access
 http $HTTP_OPTIONS PUT portainer.docker.local/api/endpoints/1 \
   "Authorization: Bearer $PORTAINER_TOKEN" \
-  AuthorizedTeams:=[1,2]
+  UserAccessPolicies:='{"2":{"RoleID":1},"3":{"RoleID":2}}'
