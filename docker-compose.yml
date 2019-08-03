@@ -31,7 +31,7 @@ services:
       - traefik
     command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$EemWf3aAeyOLC5wfblQNXeauyQ2.x.lgoDz85/bAnI.Vi7NeOBMTu'
     hostname: portainer
-    image: portainer/portainer:latest
+    image: portainer/portainer:1.21.0
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net

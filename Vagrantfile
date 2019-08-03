@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "docker" do |d|
     d.pull_images "gitlab/gitlab-ce:latest"
     d.pull_images "jenkins/jenkins:lts"
-    d.pull_images "portainer/portainer:latest"
+    d.pull_images "portainer/portainer:1.21.0"
     d.pull_images "sonarqube:latest"
     d.pull_images "sonatype/nexus3:latest"
     d.pull_images "traefik:v1.7.12"
