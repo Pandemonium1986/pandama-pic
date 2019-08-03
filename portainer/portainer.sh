@@ -19,12 +19,12 @@ fi
 export HTTP_OPTIONS=""
 HTTP_OPTIONS="--ignore-stdin"
 
-#-- Installing dependencies
-pip install --user httpie
-sudo apt install jq
-
-# Fix Path on debian 9
-export PATH="$HOME/.local/bin":$PATH
+# #-- Installing dependencies
+# pip install --user httpie
+# sudo apt install jq
+#
+# # Fix Path on debian 9
+# export PATH="$HOME/.local/bin":$PATH
 
 #-- Portainer configuration
 export PORTAINER_TOKEN=""

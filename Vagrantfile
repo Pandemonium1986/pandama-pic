@@ -39,6 +39,17 @@ Vagrant.configure("2") do |config|
     }
   end
 
+  # Provisioning portainer
+  config.vm.provision "ansible-portainer", type: "ansible", run: "never" do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.config_file = "ansible-provisioner/ansible.cfg"
+    ansible.playbook = "ansible-provisioner/portainer.yml"
+    ansible.host_vars = {
+      "pandama-pic" => {
+        "vagrant_portainer_admin_password" => ENV["PORTAINER_ADMIN_PASSWORD"]
+      }
+    }
+  end
   config.vm.hostname = "pandama-pic"
   config.vm.post_up_message = "
 ########################################################################################

@@ -1,0 +1,24 @@
+---
+- name :                          Portainer Configuration
+  hosts :                         all
+  become:                         true
+  become_method:                  sudo
+  become_user:                    root
+
+  vars :
+    portainer_admin_password:     "{{ vagrant_portainer_admin_password }}"
+
+  tasks:
+    - name:                       Ensure httpie is installed
+      pip:
+        name:                     httpie
+    - name:                       Ensure jq is installed
+      apt:
+        name:                     "jq"
+        state:                    latest
+        force_apt_get:            yes
+        update_cache:             yes
+    - name:                       Ensure portainer is configured
+      shell:                      "/vagrant/portainer/portainer.sh > /tmp/portainer.log"
+      environment:
+        PORTAINER_ADMIN_PASSWORD: "{{ portainer_admin_password }}"
