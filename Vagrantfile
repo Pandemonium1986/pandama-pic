@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     d.pull_images "jenkins/jenkins:lts"
     d.pull_images "portainer/portainer:1.21.0"
     d.pull_images "sonarqube:latest"
-    d.pull_images "sonatype/nexus3:latest"
+    d.pull_images "sonatype/nexus3:3.16.2"
     d.pull_images "traefik:v1.7.12"
   end
 
