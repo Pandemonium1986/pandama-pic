@@ -19,6 +19,8 @@
         force_apt_get:            yes
         update_cache:             yes
     - name:                       Ensure portainer is configured
-      shell:                      "/vagrant/portainer/portainer.sh > /tmp/portainer.log"
+      shell:                      "/vagrant/portainer/portainer.sh > /var/log/portainer.log"
+      args:
+        creates:                  "/var/log/portainer.log"
       environment:
         PORTAINER_ADMIN_PASSWORD: "{{ portainer_admin_password }}"
