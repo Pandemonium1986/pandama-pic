@@ -50,6 +50,19 @@ Vagrant.configure("2") do |config|
       }
     }
   end
+
+  # Provisioning nexus
+  config.vm.provision "ansible-nexus", type: "ansible", run: "never" do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.config_file = "ansible-provisioner/ansible.cfg"
+    ansible.playbook = "ansible-provisioner/nexus.yml"
+    ansible.host_vars = {
+      "pandama-pic" => {
+        "vagrant_nexus_admin_password" => ENV["NEXUS_ADMIN_PASSWORD"]
+      }
+    }
+  end
+
   config.vm.hostname = "pandama-pic"
   config.vm.post_up_message = "
 ########################################################################################
