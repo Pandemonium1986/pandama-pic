@@ -58,7 +58,7 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "ansible-provisioner/nexus.yml"
     ansible.host_vars = {
       "pandama-pic" => {
-        "vagrant_nexus_admin_password" => ENV["NEXUS_ADMIN_PASSWORD"]
+        "vagrant_nexus3_admin_password" => ENV["NEXUS3_ADMIN_PASSWORD"]
       }
     }
   end

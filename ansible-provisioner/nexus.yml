@@ -1,23 +1,24 @@
 ---
-- name :                          Nexus Configuration
-  hosts :                         all
-  become:                         true
-  become_method:                  sudo
-  become_user:                    root
+- name :                       Nexus Configuration
+  hosts :                      all
+  become:                      true
+  become_method:               sudo
+  become_user:                 root
 
   vars :
-    nexus_admin_password:         "{{ vagrant_nexus_admin_password }}"
+    nexus3_admin_password:     "{{ vagrant_nexus3_admin_password }}"
 
   tasks:
-    - name:                       Ensure groovy is installed
+    - name:                    Ensure groovy is installed
       apt:
-        name:                     "groovy"
-        state:                    latest
-        force_apt_get:            yes
-        update_cache:             yes
-    - name:                       Ensure nexus is configured
-      shell:                      "/vagrant/nexus3/nexus3.sh > /var/log/nexus.log"
+        name:                  "groovy"
+        state:                 latest
+        force_apt_get:         yes
+        update_cache:          yes
+    - name:                    Ensure nexus is configured
+      shell:                   "/vagrant/nexus3/nexus3.sh all > /var/log/nexus.log"
       args:
-        creates:                  "/var/log/nexus.log"
+        creates:               "/var/log/nexus.log"
+        chdir:                 "/vagrant/nexus3/"
       environment:
-        PORTAINER_ADMIN_PASSWORD: "{{ portainer_admin_password }}"
+        NEXUS3_ADMIN_PASSWORD: "{{ nexus3_admin_password }}"
