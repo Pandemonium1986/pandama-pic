@@ -27,6 +27,12 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "ansible-provisioner/pandama-pic.yml"
   end
 
+  config.vm.provision "shell-docker-compose", type: "shell", run: "once" do |shell|
+     shell.path = "shell-provisioner/docker-compose.sh"
+     shell.keep_color = "true"
+     shell.name = "docker-compose"
+   end
+
   # Provisioning gitlab
   config.vm.provision "ansible-gitlab", type: "ansible", run: "never" do |ansible|
     ansible.compatibility_mode = "2.0"
@@ -65,12 +71,17 @@ Vagrant.configure("2") do |config|
 
   config.vm.hostname = "pandama-pic"
   config.vm.post_up_message = "
-########################################################################################
-##                              Starting pandama-pic done                             ##
-##                          Please execute vagrant provision                          ##
-##                            to configure gitlab instance                            ##
-## GITLAB_API_TOKEN=\"MySecretToken\" vagrant provision --provision-with ansible-gitlab ##
-########################################################################################
+########################################################################################################
+##                                      Starting pandama-pic done                                     ##
+##                                  Please execute vagrant provision                                  ##
+##                            to configure portainer/nexus/gitlab instance                            ##
+##----------------------------------------------------------------------------------------------------##
+##  PORTAINER_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-portainer  ##
+##----------------------------------------------------------------------------------------------------##
+##     NEXUS3_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-nexus      ##
+##----------------------------------------------------------------------------------------------------##
+##         GITLAB_API_TOKEN=\"MySecretToken\" vagrant provision --provision-with ansible-gitlab         ##
+########################################################################################################
 "
   config.vm.define "pandama-pic"
 end
