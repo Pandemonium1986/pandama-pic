@@ -76,17 +76,22 @@ services:
       - nexus-data:/nexus-data
 
   jenkins:
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
+      cache_from:
+        - jenkins/jenkins:lts
     container_name: "jenkins"
     depends_on:
       - portainer
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/login"]
       interval: 90s
       timeout: 30s
       retries: 3
       start_period: 60s
     hostname: jenkins
-    image: jenkins/jenkins:lts
+    image: pandemonium1986/jenkins:lts
     labels:
       com.pandama-pic.status: "development"
       traefik.docker.network: pandama-net
