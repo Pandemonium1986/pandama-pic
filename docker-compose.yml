@@ -6,7 +6,7 @@ services:
     container_name: "traefik"
     # command: --api --docker # Enables the web UI and tells Traefik to listen to docker
     hostname: traefik
-    image: traefik:v1.7.12 # The official Traefik docker image
+    image: traefik:v1.7.13
     labels:
       com.pandama-pic.status: "development"
       traefik.docker.network: pandama-net
