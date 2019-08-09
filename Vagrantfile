@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     d.pull_images "portainer/portainer:1.21.0"
     d.pull_images "sonarqube:latest"
     d.pull_images "sonatype/nexus3:3.16.2"
-    d.pull_images "traefik:v1.7.12"
+    d.pull_images "traefik:v1.7.13"
   end
 
   # Provisioning the configuration
@@ -69,16 +69,30 @@ Vagrant.configure("2") do |config|
     }
   end
 
+  # Provisioning sonarqube
+  config.vm.provision "ansible-sonarqube", type: "ansible", run: "never" do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.config_file = "ansible-provisioner/ansible.cfg"
+    ansible.playbook = "ansible-provisioner/sonarqube.yml"
+    ansible.host_vars = {
+      "pandama-pic" => {
+        "vagrant_sonarqube_admin_password" => ENV["SONARQUBE_ADMIN_PASSWORD"]
+      }
+    }
+  end
+
   config.vm.hostname = "pandama-pic"
   config.vm.post_up_message = "
 ########################################################################################################
 ##                                      Starting pandama-pic done                                     ##
 ##                                  Please execute vagrant provision                                  ##
-##                            to configure portainer/nexus/gitlab instance                            ##
+##                       to configure portainer/nexus/gitlab/sonarqube instance                       ##
 ##----------------------------------------------------------------------------------------------------##
 ##  PORTAINER_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-portainer  ##
 ##----------------------------------------------------------------------------------------------------##
 ##     NEXUS3_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-nexus      ##
+##----------------------------------------------------------------------------------------------------##
+##  SONARQUBE_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-sonarqube  ##
 ##----------------------------------------------------------------------------------------------------##
 ##         GITLAB_API_TOKEN=\"MySecretToken\" vagrant provision --provision-with ansible-gitlab         ##
 ########################################################################################################

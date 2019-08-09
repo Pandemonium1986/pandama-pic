@@ -6,9 +6,9 @@ services:
     container_name: "traefik"
     # command: --api --docker # Enables the web UI and tells Traefik to listen to docker
     hostname: traefik
-    image: traefik:v1.7.12 # The official Traefik docker image
+    image: traefik:v1.7.13
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
       traefik.enable: true
       traefik.frontend.rule: "Host:traefik.docker.local"
@@ -93,7 +93,7 @@ services:
     hostname: jenkins
     image: pandemonium1986/jenkins:lts
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
       traefik.enable: true
       traefik.frontend.rule: "Host:jenkins.docker.local"
@@ -157,7 +157,7 @@ services:
     hostname: sonarqube
     image: sonarqube:latest
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
       traefik.enable: true
       traefik.frontend.rule: "Host:sonar.docker.local"
@@ -183,7 +183,7 @@ networks:
     #     - subnet: 172.66.0.0/16
     name: pandama-net
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
 
 volumes:
   gitlab-config:
@@ -200,7 +200,7 @@ volumes:
     name: gitlab-logs
   jenkins-home:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: jenkins-home
   nexus-data:
     labels:
@@ -212,17 +212,17 @@ volumes:
     name: portainer-data
   sonarqube-conf:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: sonarqube-conf
   sonarqube-data:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: sonarqube-data
   sonarqube-extensions:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: sonarqube-extensions
   sonarqube-logs:
     labels:
-      com.pandama-pic.status: "development"
+      com.pandama-pic.status: "stable"
     name: sonarqube-logs
