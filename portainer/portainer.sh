@@ -15,17 +15,17 @@ then
   exit 1
 fi
 
-#-- http options
+#-- HTTPie options
 export HTTP_OPTIONS=""
 HTTP_OPTIONS="--ignore-stdin"
 
-# #-- Installing dependencies
-# pip install --user httpie
-# sudo apt install jq
-#
 # # Fix Path on debian 9
 # export PATH="$HOME/.local/bin":$PATH
+#==============================================================================#
 
+##########
+## Main ##
+##########
 #-- Portainer configuration
 export PORTAINER_TOKEN=""
 PORTAINER_TOKEN=$(http $HTTP_OPTIONS POST portainer.docker.local/api/auth Username="admin" Password="$PORTAINER_ADMIN_PASSWORD" | jq -r .jwt)

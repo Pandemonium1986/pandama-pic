@@ -15,10 +15,17 @@ then
   exit 1
 fi
 
-#-- http options
+#-- HTTPie options
 export HTTPIE_OPTIONS=""
 HTTPIE_OPTIONS="--session=/tmp/sonar.json --ignore-stdin --form --auth admin:$SONARQUBE_ADMIN_PASSWORD"
 
+# # Fix Path on debian 9
+# export PATH="$HOME/.local/bin":$PATH
+#==============================================================================#
+
+##########
+## Main ##
+##########
 #-- Sonarqube configuration
 # http $HTTPIE_OPTIONS POST sonar.docker.local/api/authentication/login
 
