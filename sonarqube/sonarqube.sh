@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -eux
 ########################################
 ### Sonarqube : Configuration script ###
 ########################################
@@ -27,30 +27,30 @@ HTTPIE_OPTIONS="--session=/tmp/sonar.json --ignore-stdin --form --auth admin:$SO
 ## Main ##
 ##########
 #-- Sonarqube configuration
-# http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/authentication/login
+# http $HTTPIE_OPTIONS POST sonar.docker.local/api/authentication/login
 
 # Groups
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/user_groups/create \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/create \
   name="dev" description="My awesome dev group"
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/user_groups/create \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/create \
   name="ops" description="My awesome ops group"
 
 # Users
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/users/create \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
   login="alice" local="true" name="Alice Liddell" password="password1*"
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/users/create \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
   login="bob" local="true" name="Bob Morane" password="password1*"
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/users/create \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
   login="charlie" local="true" name="Charlie Hebdo" password="password1*"
 
 # Memberships
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/user_groups/add_user \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
   login="alice" name="dev"
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/user_groups/add_user \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
   login="bob" name="ops"
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/user_groups/add_user \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
   login="charlie" name="dev"
 
 # Permission
-http "$HTTPIE_OPTIONS" POST sonar.docker.local/api/permissions/remove_group \
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/permissions/remove_group \
   groupName="Anyone" permission="provisioning"
