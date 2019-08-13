@@ -2,6 +2,7 @@ Vagrant.require_version ">= 2.2.3"
 
 Vagrant.configure("2") do |config|
   config.vm.box = "pandemonium/pandama"
+  config.env.enable # Enable vagrant-env(.env)
   config.vm.box_version = "1.1.0"
   config.vm.network "private_network", ip: "192.168.66.11"
 
@@ -12,12 +13,12 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "docker" do |d|
-    d.pull_images "gitlab/gitlab-ce:latest"
-    d.pull_images "jenkins/jenkins:lts"
-    d.pull_images "portainer/portainer:1.21.0"
-    d.pull_images "sonarqube:latest"
-    d.pull_images "sonatype/nexus3:3.16.2"
-    d.pull_images "traefik:v1.7.13"
+    d.pull_images "gitlab/gitlab-ce:"+ENV["GITLAB_TAG"]
+    d.pull_images "jenkins/jenkins:"+ENV["JENKINS_TAG"]
+    d.pull_images "portainer/portainer:"+ENV["PORTAINER_TAG"]
+    d.pull_images "sonarqube:"+ENV["SONARQUBE_TAG"]
+    d.pull_images "sonatype/nexus3:"+ENV["NEXUS3_TAG"]
+    d.pull_images "traefik:"+ENV["TRAEFIK_TAG"]
   end
 
   # Provisioning the configuration
