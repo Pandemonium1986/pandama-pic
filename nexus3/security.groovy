@@ -39,4 +39,11 @@ def Bob = security.addUser('bob', 'Bob', 'Morane', 'bob.morane@example.com', tru
 def Charlie = security.addUser('charlie', 'Charlie', 'Hebdo', 'chalie.hebdo@example.com', true, 'password1*', ['developer'])
 log.info('User jenkins created')
 
+
+//----------------------
+// Modify Admin Password
+//----------------------
+security.securitySystem.changePassword('admin','password1*')
+log.info('Admin password modify')
+
 log.info('Script security completed successfully')

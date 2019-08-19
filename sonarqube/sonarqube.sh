@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/bash -eu
 ########################################
 ### Sonarqube : Configuration script ###
 ########################################
@@ -54,3 +54,7 @@ http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
 # Permission
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/permissions/remove_group \
   groupName="Anyone" permission="provisioning"
+
+# Admin password
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/change_password \
+  login="admin" password="password1*" previousPassword=$SONARQUBE_ADMIN_PASSWORD

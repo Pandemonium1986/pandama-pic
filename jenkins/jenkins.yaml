@@ -28,6 +28,12 @@ jenkins:
       users:
         - id: "admin"
           password: "password1*"
+        - id: "alice"
+          password: "password1*"
+        - id: "bob"
+          password: "password1*"
+        - id: "charlie"
+          password: "password1*"
   slaveAgentPort:                     50000
   updateCenter:
     sites:

@@ -1,0 +1,32 @@
+---
+pic_users:
+  - user_name:         admin
+    user_comment:      Admin Powerfull
+    user_groups:       ['admin', 'audio', 'cdrom', 'dip', 'floppy', 'netdev', 'plugdev', 'video']
+    user_tools_groups: ['dev, ops']
+    user_email:        admin@localhost
+    user_password:     $6$pandama-pic$r0fLiIs1FThDg3sWihqT5u.tduqMWJzczZFtcI8OqUMrdpsU/hQchRgWaFNZHlP3QyB0cW58UIdrAFmqLo3Ar.
+  - user_name:         alice
+    user_comment:      Alice Liddell
+    user_groups:       ['alice', 'audio', 'cdrom', 'dip', 'floppy', 'netdev', 'plugdev', 'video']
+    user_tools_groups: ['dev']
+    user_email:        alice@localhost
+    user_password:     $6$pandama-pic$r0fLiIs1FThDg3sWihqT5u.tduqMWJzczZFtcI8OqUMrdpsU/hQchRgWaFNZHlP3QyB0cW58UIdrAFmqLo3Ar.
+  - user_name:         bob
+    user_comment:      Bob Morane
+    user_groups:       ['bob', 'audio', 'cdrom', 'dip', 'floppy', 'netdev', 'plugdev', 'video']
+    user_tools_groups: ['ops']
+    user_email:        bob@localhost
+    user_password:     $6$pandama-pic$r0fLiIs1FThDg3sWihqT5u.tduqMWJzczZFtcI8OqUMrdpsU/hQchRgWaFNZHlP3QyB0cW58UIdrAFmqLo3Ar.
+  - user_name:         charlie
+    user_comment:      Charlie Hebdo
+    user_groups:       ['charlie', 'audio', 'cdrom', 'dip', 'floppy', 'netdev', 'plugdev', 'video']
+    user_tools_groups: ['dev']
+    user_email:        charlie@localhost
+    user_password:     $6$pandama-pic$r0fLiIs1FThDg3sWihqT5u.tduqMWJzczZFtcI8OqUMrdpsU/hQchRgWaFNZHlP3QyB0cW58UIdrAFmqLo3Ar.
+  - user_name:         jenkins
+    user_comment:      Leeroy Jenkins
+    user_groups:       ['jenkins', 'audio', 'cdrom', 'dip', 'floppy', 'netdev', 'plugdev', 'video']
+    user_tools_groups: ['dev', 'ops']
+    user_email:        jenkins@localhost
+    user_password:     $6$pandama-pic$r0fLiIs1FThDg3sWihqT5u.tduqMWJzczZFtcI8OqUMrdpsU/hQchRgWaFNZHlP3QyB0cW58UIdrAFmqLo3Ar.
