@@ -53,6 +53,9 @@ http $HTTPIE_OPTIONS POST portainer.docker.local/api/users \
 http $HTTPIE_OPTIONS POST portainer.docker.local/api/users \
   "Authorization: Bearer $PORTAINER_TOKEN" \
   Username="charlie" Password="password1*" Role:=2
+http $HTTPIE_OPTIONS POST portainer.docker.local/api/users \
+  "Authorization: Bearer $PORTAINER_TOKEN" \
+  Username="jenkins" Password="password1*" Role:=2
 
 # Memberships
 http $HTTPIE_OPTIONS POST portainer.docker.local/api/team_memberships \
@@ -64,6 +67,9 @@ http $HTTPIE_OPTIONS POST portainer.docker.local/api/team_memberships \
 http $HTTPIE_OPTIONS POST portainer.docker.local/api/team_memberships \
   "Authorization: Bearer $PORTAINER_TOKEN" \
   UserID:=4 TeamID:=1 Role:=2
+http $HTTPIE_OPTIONS POST portainer.docker.local/api/team_memberships \
+  "Authorization: Bearer $PORTAINER_TOKEN" \
+  UserID:=5 TeamID:=1 Role:=2
 
 # Endpoint Access
 http $HTTPIE_OPTIONS PUT portainer.docker.local/api/endpoints/1 \

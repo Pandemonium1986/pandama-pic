@@ -42,6 +42,8 @@ http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
   login="bob" local="true" name="Bob Morane" password="password1*"
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
   login="charlie" local="true" name="Charlie Hebdo" password="password1*"
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
+  login="jenkins" local="true" name="Leeroy Jenkins" password="password1*"
 
 # Memberships
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
@@ -50,6 +52,8 @@ http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
   login="bob" name="ops"
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
   login="charlie" name="dev"
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
+  login="jenkins" name="dev"
 
 # Permission
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/permissions/remove_group \

@@ -12,9 +12,10 @@
       - { name: 'dev', description: 'My awesome dev group' }
       - { name: 'ops', description: 'My awesome ops group' }
     gitlab_users:
-      - { name: 'Alice Liddell', username: 'alice', password: 'password1*', email: 'alice.liddell@example.com', access_level: 'developer', group: 'dev', isadmin: 'no'}
-      - { name: 'Bob Morane', username: 'bob', password: 'password1*', email: 'bob.morane@example.com', access_level: 'developer', group: 'ops', isadmin: 'no'}
-      - { name: 'Charlie Hebdo', username: 'charlie', password: 'password1*', email: 'charlie.hebdo@example.com', access_level: 'developer', group: 'dev', isadmin: 'no'}
+      - { name: 'Alice Liddell', username: 'alice', password: 'password1*', email: 'alice.liddell@localhost', access_level: 'developer', group: 'dev', isadmin: 'no'}
+      - { name: 'Bob Morane', username: 'bob', password: 'password1*', email: 'bob.morane@localhost', access_level: 'developer', group: 'ops', isadmin: 'no'}
+      - { name: 'Charlie Hebdo', username: 'charlie', password: 'password1*', email: 'charlie.hebdo@localhost', access_level: 'developer', group: 'dev', isadmin: 'no'}
+      - { name: 'Leeroy Jenkins', username: 'jenkins', password: 'password1*', email: 'jenkins.hebdo@localhost', access_level: 'developer', group: 'dev', isadmin: 'no'}
   # vars_prompt:
   #   - name:            gitlab_api_token
   #     prompt:          "What is your root gitlab_api_token?"
