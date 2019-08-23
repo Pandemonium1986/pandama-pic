@@ -2,7 +2,7 @@
 pic_users:
   - user_name:         admin
     user_comment:      Admin Powerfull
-    user_groups:       ['admin', 'audio', 'cdrom', 'dip', 'floppy', 'netdev', 'plugdev', 'video']
+    user_groups:       ['admin', 'audio', 'cdrom', 'dip', 'docker', 'floppy', 'netdev', 'plugdev', 'video']
     user_tools_groups: ['dev, ops']
     user_email:        admin@localhost
     user_password:     $6$pandama-pic$r0fLiIs1FThDg3sWihqT5u.tduqMWJzczZFtcI8OqUMrdpsU/hQchRgWaFNZHlP3QyB0cW58UIdrAFmqLo3Ar.
