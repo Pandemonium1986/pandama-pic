@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "ansible-provisioner/pandama-pic.yml"
   end
 
-  config.vm.provision "shell-docker-compose", type: "shell", run: "once" do |shell|
+  config.vm.provision "shell-docker-compose", type: "shell", run: "always" do |shell|
      shell.path = "shell-provisioner/docker-compose.sh"
      shell.keep_color = "true"
      shell.name = "docker-compose"
