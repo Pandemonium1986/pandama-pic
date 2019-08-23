@@ -3,8 +3,10 @@ jenkins:
   - "JNLP4-connect"
   - "Ping"
   authorizationStrategy:
-    loggedInUsersCanDoAnything:
-      allowAnonymousRead:             false
+    projectMatrix:
+      permissions:
+      - "Overall/Administer:admin"
+      - "Overall/Read:authenticated"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb:       false
@@ -26,8 +28,14 @@ jenkins:
       allowsSignup:                   false
       enableCaptcha:                  false
       users:
-        - id: "admin"
-          password: "password1*"
+        - id:                         "admin"
+          password:                   "password1*"
+        - id:                         "alice"
+          password:                   "password1*"
+        - id:                         "bob"
+          password:                   "password1*"
+        - id:                         "charlie"
+          password:                   "password1*"
   slaveAgentPort:                     50000
   updateCenter:
     sites:

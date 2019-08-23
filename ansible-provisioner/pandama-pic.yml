@@ -1,40 +1,62 @@
 ---
-- name :               Pandama-pic installation
-  hosts :              all
-  become:              true
-  become_method:       sudo
-  become_user:         root
+- name :                 Pandama-pic installation
+  hosts :                all
+  become:                true
+  become_method:         sudo
+  become_user:           root
+  # vars_files:
+  #  - host_vars/pandama-pic/pic_users.yml
   tasks:
-    - name:            Upgrade all packages to the latest version
+    - name:              Ensure group "user_name" exists
+      group:
+        name:            "{{ item.user_name }}"
+        state:           present
+      loop:              "{{ pic_users|flatten(levels=1) }}"
+    - name:              Create default users
+      user:
+        name:            "{{ item.user_name }}"
+        comment:         "{{ item.user_comment }}"
+        append:          no
+        expires:         -1
+        shell:           /bin/bash
+        groups:          "{{ item.user_groups | default (item.user_name) }}"
+        password:        "{{ item.user_password }}"
+        state:           present
+        update_password: always
+      loop:              "{{ pic_users|flatten(levels=1) }}"
+    - name:              Upgrade all packages to the latest version
       apt:
-        name:          "*"
-        state:         latest
-        force_apt_get: yes
-        update_cache:  yes
-
-    - name:            Ensure /etc/hosts is update
+        name:            "*"
+        state:           latest
+        force_apt_get:   yes
+        update_cache:    yes
+    #
+    #
+    # TODO :             ADD USER ADMIN AS SUDOERS
+    #
+    #
+    - name:              Ensure /etc/hosts is update
       lineinfile:
-        path:          /etc/hosts
-        state:         present
-        insertafter:   '^127.0.1.1'
-        line:          '127.1.1.1 traefik.docker.local portainer.docker.local nexus.docker.local jenkins.docker.local gitlab.docker.local sonar.docker.local'
-
-    - name:            Ensure softwares are configured
+        path:            /etc/hosts
+        state:           present
+        insertafter:     '^127.0.1.1'
+        line:            '127.1.1.1 traefik.docker.local portainer.docker.local nexus.docker.local jenkins.docker.local gitlab.docker.local sonar.docker.local'
+    - name:              Ensure softwares are configured
       block:
-        - name:        Ensure oh my zsh is install
+        - name:          Ensure oh my zsh is install
           git:
-            repo:      "https://github.com/robbyrussell/oh-my-zsh"
-            dest:      /home/pandemonium/.oh-my-zsh
-            update:    yes
-        - name:        Ensure tmuxifier is install
+            repo:        "https://github.com/robbyrussell/oh-my-zsh"
+            dest:        /home/pandemonium/.oh-my-zsh
+            update:      yes
+        - name:          Ensure tmuxifier is install
           git:
-            repo:      "https://github.com/jimeh/tmuxifier.git"
-            dest:      /home/pandemonium/.tmuxifier
-            update:    yes
-        - name:        Ensure pandemonium dotfiles are installed
+            repo:        "https://github.com/jimeh/tmuxifier.git"
+            dest:        /home/pandemonium/.tmuxifier
+            update:      yes
+        - name:          Ensure pandemonium dotfiles are installed
           git:
-            repo:      "https://github.com/Pandemonium1986/dotfiles"
-            dest:      /home/pandemonium/git/Pandemonium1986/dotfiles
-            update:    yes
-      become:          true
-      become_user:     pandemonium
+            repo:        "https://github.com/Pandemonium1986/dotfiles"
+            dest:        /home/pandemonium/git/Pandemonium1986/dotfiles
+            update:      yes
+      become:            true
+      become_user:       pandemonium

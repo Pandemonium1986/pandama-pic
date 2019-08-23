@@ -6,7 +6,7 @@ services:
     container_name: "traefik"
     # command: --api --docker # Enables the web UI and tells Traefik to listen to docker
     hostname: traefik
-    image: traefik:v1.7.13
+    image: "traefik:${TRAEFIK_TAG}"
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
@@ -29,9 +29,9 @@ services:
     container_name: "portainer"
     depends_on:
       - traefik
-    command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$EemWf3aAeyOLC5wfblQNXeauyQ2.x.lgoDz85/bAnI.Vi7NeOBMTu'
+    command: -H unix:///var/run/docker.sock --admin-password='$$2y$$05$$i9DbZj/i.gZ4E/0sWLi6z.R66h/mL60bEojyPCI1ThbQtqGBVU92q'
     hostname: portainer
-    image: portainer/portainer:1.21.0
+    image: "portainer/portainer:${PORTAINER_TAG}"
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
@@ -59,7 +59,7 @@ services:
       retries: 3
       start_period: 60s
     hostname: nexus
-    image: sonatype/nexus3:3.16.2
+    image: "sonatype/nexus3:${NEXUS3_TAG}"
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
@@ -91,7 +91,7 @@ services:
       retries: 3
       start_period: 60s
     hostname: jenkins
-    image: pandemonium1986/jenkins:lts
+    image: "pandemonium1986/jenkins:${JENKINS_TAG}"
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
@@ -124,7 +124,7 @@ services:
       retries: 3
       start_period: 60s
     hostname: "192.168.66.11"
-    image: gitlab/gitlab-ce:latest
+    image: "gitlab/gitlab-ce:${GITLAB_TAG}"
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net
@@ -155,7 +155,7 @@ services:
       retries: 3
       start_period: 60s
     hostname: sonarqube
-    image: sonarqube:latest
+    image: "sonarqube:${SONARQUBE_TAG}"
     labels:
       com.pandama-pic.status: "stable"
       traefik.docker.network: pandama-net

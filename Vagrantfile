@@ -2,6 +2,7 @@ Vagrant.require_version ">= 2.2.3"
 
 Vagrant.configure("2") do |config|
   config.vm.box = "pandemonium/pandama"
+  config.env.enable # Enable vagrant-env(.env)
   config.vm.box_version = "1.1.0"
   config.vm.network "private_network", ip: "192.168.66.11"
 
@@ -12,12 +13,12 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "docker" do |d|
-    d.pull_images "gitlab/gitlab-ce:latest"
-    d.pull_images "jenkins/jenkins:lts"
-    d.pull_images "portainer/portainer:1.21.0"
-    d.pull_images "sonarqube:latest"
-    d.pull_images "sonatype/nexus3:3.16.2"
-    d.pull_images "traefik:v1.7.13"
+    d.pull_images "gitlab/gitlab-ce:"+ENV["GITLAB_TAG"]
+    d.pull_images "jenkins/jenkins:"+ENV["JENKINS_TAG"]
+    d.pull_images "portainer/portainer:"+ENV["PORTAINER_TAG"]
+    d.pull_images "sonarqube:"+ENV["SONARQUBE_TAG"]
+    d.pull_images "sonatype/nexus3:"+ENV["NEXUS3_TAG"]
+    d.pull_images "traefik:"+ENV["TRAEFIK_TAG"]
   end
 
   # Provisioning the configuration
@@ -27,7 +28,7 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "ansible-provisioner/pandama-pic.yml"
   end
 
-  config.vm.provision "shell-docker-compose", type: "shell", run: "once" do |shell|
+  config.vm.provision "shell-docker-compose", type: "shell", run: "always" do |shell|
      shell.path = "shell-provisioner/docker-compose.sh"
      shell.keep_color = "true"
      shell.name = "docker-compose"
@@ -45,18 +46,6 @@ Vagrant.configure("2") do |config|
     }
   end
 
-  # Provisioning portainer
-  config.vm.provision "ansible-portainer", type: "ansible", run: "never" do |ansible|
-    ansible.compatibility_mode = "2.0"
-    ansible.config_file = "ansible-provisioner/ansible.cfg"
-    ansible.playbook = "ansible-provisioner/portainer.yml"
-    ansible.host_vars = {
-      "pandama-pic" => {
-        "vagrant_portainer_admin_password" => ENV["PORTAINER_ADMIN_PASSWORD"]
-      }
-    }
-  end
-
   # Provisioning nexus
   config.vm.provision "ansible-nexus", type: "ansible", run: "never" do |ansible|
     ansible.compatibility_mode = "2.0"
@@ -65,6 +54,18 @@ Vagrant.configure("2") do |config|
     ansible.host_vars = {
       "pandama-pic" => {
         "vagrant_nexus3_admin_password" => ENV["NEXUS3_ADMIN_PASSWORD"]
+      }
+    }
+  end
+
+  # Provisioning portainer
+  config.vm.provision "ansible-portainer", type: "ansible", run: "never" do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.config_file = "ansible-provisioner/ansible.cfg"
+    ansible.playbook = "ansible-provisioner/portainer.yml"
+    ansible.host_vars = {
+      "pandama-pic" => {
+        "vagrant_portainer_admin_password" => ENV["PORTAINER_ADMIN_PASSWORD"]
       }
     }
   end
@@ -88,13 +89,13 @@ Vagrant.configure("2") do |config|
 ##                                  Please execute vagrant provision                                  ##
 ##                       to configure portainer/nexus/gitlab/sonarqube instance                       ##
 ##----------------------------------------------------------------------------------------------------##
-##  PORTAINER_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-portainer  ##
+##         GITLAB_API_TOKEN=\"MySecretToken\" vagrant provision --provision-with ansible-gitlab         ##
 ##----------------------------------------------------------------------------------------------------##
 ##     NEXUS3_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-nexus      ##
 ##----------------------------------------------------------------------------------------------------##
-##  SONARQUBE_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-sonarqube  ##
+##  PORTAINER_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-portainer  ##
 ##----------------------------------------------------------------------------------------------------##
-##         GITLAB_API_TOKEN=\"MySecretToken\" vagrant provision --provision-with ansible-gitlab         ##
+##  SONARQUBE_ADMIN_PASSWORD=\"MySecretPassword\" vagrant provision --provision-with ansible-sonarqube  ##
 ########################################################################################################
 "
   config.vm.define "pandama-pic"

@@ -15,10 +15,17 @@ then
   exit 1
 fi
 
-#-- http options
+#-- HTTPie options
 export HTTPIE_OPTIONS=""
 HTTPIE_OPTIONS="--session=/tmp/sonar.json --ignore-stdin --form --auth admin:$SONARQUBE_ADMIN_PASSWORD"
 
+# # Fix Path on debian 9
+# export PATH="$HOME/.local/bin":$PATH
+#==============================================================================#
+
+##########
+## Main ##
+##########
 #-- Sonarqube configuration
 # http $HTTPIE_OPTIONS POST sonar.docker.local/api/authentication/login
 
@@ -35,6 +42,8 @@ http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
   login="bob" local="true" name="Bob Morane" password="password1*"
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
   login="charlie" local="true" name="Charlie Hebdo" password="password1*"
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/create \
+  login="jenkins" local="true" name="Leeroy Jenkins" password="password1*"
 
 # Memberships
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
@@ -43,7 +52,13 @@ http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
   login="bob" name="ops"
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
   login="charlie" name="dev"
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/user_groups/add_user \
+  login="jenkins" name="dev"
 
 # Permission
 http $HTTPIE_OPTIONS POST sonar.docker.local/api/permissions/remove_group \
   groupName="Anyone" permission="provisioning"
+
+# Admin password
+http $HTTPIE_OPTIONS POST sonar.docker.local/api/users/change_password \
+  login="admin" password="password1*" previousPassword=$SONARQUBE_ADMIN_PASSWORD

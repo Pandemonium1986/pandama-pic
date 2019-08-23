@@ -33,10 +33,17 @@ security.addRole('operational', 'ops', 'User with privileges to allow deployment
 log.info('Role operational created')
 
 def depRoles = ['operational']
-def Jenkins = security.addUser('jenkins', 'Leeroy', 'Jenkins', 'leeroy.jenkins@example.com', true, 'password1*', depRoles)
-def Alice = security.addUser('alice', 'Alice', 'Liddell', 'alice.liddell@example.com', true, 'password1*', ['developer'])
-def Bob = security.addUser('bob', 'Bob', 'Morane', 'bob.morane@example.com', true, 'password1*', depRoles)
-def Charlie = security.addUser('charlie', 'Charlie', 'Hebdo', 'chalie.hebdo@example.com', true, 'password1*', ['developer'])
+def Alice = security.addUser('alice', 'Alice', 'Liddell', 'alice@localhost', true, 'password1*', ['developer'])
+def Bob = security.addUser('bob', 'Bob', 'Morane', 'bob@localhost', true, 'password1*', depRoles)
+def Charlie = security.addUser('charlie', 'Charlie', 'Hebdo', 'charlie@localhost', true, 'password1*', ['developer'])
+def Jenkins = security.addUser('jenkins', 'Leeroy', 'Jenkins', 'jenkins@localhost', true, 'password1*', depRoles)
 log.info('User jenkins created')
+
+
+//----------------------
+// Modify Admin Password
+//----------------------
+security.securitySystem.changePassword('admin','password1*')
+log.info('Admin password modify')
 
 log.info('Script security completed successfully')
