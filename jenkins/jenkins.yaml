@@ -83,10 +83,9 @@ unclassified:
   gitSCM:
     createAccountBasedOnEmail:        false
   location:
-    adminAddress:                     "Adresse pas encore configurée <nobody@nowhere>"
+    adminAddress:                     "admin@localhost"
     url:                              "http://jenkins.docker.local/"
   mailer:
-    adminAddress:                     "Adresse pas encore configurée <nobody@nowhere>"
     charset:                          "UTF-8"
     useSsl:                           false
   pollSCM:
