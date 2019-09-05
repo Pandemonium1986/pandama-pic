@@ -1,13 +1,13 @@
 ---
-- name :                 Gitlab Configuration
-  hosts :                all
-  become:                true
-  become_method:         sudo
-  become_user:           root
+- name :                  Gitlab Configuration
+  hosts :                 all
+  become:                 true
+  become_method:          sudo
+  become_user:            root
 
   vars :
-    gitlab_api_token:    "{{ vagrant_gitlab_api_token }}"
-    gitlab_external_url: "gitlab.docker.local"
+    gitlab_api_token:     "{{ vagrant_gitlab_api_token }}"
+    gitlab_external_url:  "gitlab.docker.local"
     gitlab_groups:
       - { name: 'dev', description: 'My awesome dev group' }
       - { name: 'ops', description: 'My awesome ops group' }
@@ -17,36 +17,47 @@
       - { name: 'Charlie Hebdo', username: 'charlie', password: 'password1*', email: 'charlie@localhost', access_level: 'developer', group: 'dev', isadmin: 'no'}
       - { name: 'Leeroy Jenkins', username: 'jenkins', password: 'password1*', email: 'jenkins@localhost', access_level: 'developer', group: 'dev', isadmin: 'no'}
   # vars_prompt:
-  #   - name:            gitlab_api_token
-  #     prompt:          "What is your root gitlab_api_token?"
-  #     private:         yes
+  #   - name:             gitlab_api_token
+  #     prompt:           "What is your root gitlab_api_token?"
+  #     private:          yes
 
   tasks:
-    - name:              Ensure python-gitlab is installed
+    - name:               Ensure python-gitlab is installed
       pip:
-        name:            python-gitlab
-    - name:              "Create Gitlab groups"
+        name:             python-gitlab
+    - name:               "Create Gitlab groups"
       gitlab_group:
-        server_url:      "http://{{ gitlab_external_url }}/"
-        api_token:       "{{ gitlab_api_token }}"
-        name:            "{{ item.name }}"
-        path:            "{{ item.name }}"
-        state:           present
-        description:     "{{ item.description }}"
-        visibility:      "private"
-      loop:              "{{ gitlab_groups }}"
-    - name:              "Create Gitlab User"
+        server_url:       "http://{{ gitlab_external_url }}/"
+        api_token:        "{{ gitlab_api_token }}"
+        name:             "{{ item.name }}"
+        path:             "{{ item.name }}"
+        state:            present
+        description:      "{{ item.description }}"
+        visibility:       "private"
+      loop:               "{{ gitlab_groups }}"
+    - name:               "Create Gitlab User"
       gitlab_user:
-        server_url:      "http://{{ gitlab_external_url }}/"
-        api_token:       "{{ gitlab_api_token }}"
-        validate_certs:  false
-        state:           present
-        confirm:         no
-        name:            "{{ item.name }}"
-        username:        "{{ item.username }}"
-        password:        "{{ item.password }}"
-        access_level:    "{{ item.access_level }}"
-        email:           "{{ item.email }}"
-        group:           "{{ item.group }}"
-        isadmin:         "{{ item.isadmin }}"
-      loop:              "{{ gitlab_users }}"
+        server_url:       "http://{{ gitlab_external_url }}/"
+        api_token:        "{{ gitlab_api_token }}"
+        validate_certs:   false
+        state:            present
+        confirm:          no
+        name:             "{{ item.name }}"
+        username:         "{{ item.username }}"
+        password:         "{{ item.password }}"
+        access_level:     "{{ item.access_level }}"
+        email:            "{{ item.email }}"
+        group:            "{{ item.group }}"
+        isadmin:          "{{ item.isadmin }}"
+      loop:               "{{ gitlab_users }}"
+    - name:               "Create project pic-demo in group dev"
+      gitlab_project:
+        server_url:       "http://{{ gitlab_external_url }}/"
+        api_token:        "{{ gitlab_api_token }}"
+        name:             pic-demo
+        group:            dev
+        issues_enabled:   False
+        wiki_enabled:     True
+        snippets_enabled: True
+        import_url:       https://github.com/Pandemonium1986/pic-demo
+        state:            present
