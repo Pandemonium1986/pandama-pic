@@ -1,3 +1,24 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          description:                "Jenkins account for gitlab"
+          id:                         "jenkins-gitlab"
+          password:                   "${JENKINS_PASSWORD}"
+          scope:                      GLOBAL
+          username:                   "jenkins"
+      - usernamePassword:
+          description:                "Jenkins account for sonarqube"
+          id:                         "jenkins-sonar"
+          password:                   "${JENKINS_PASSWORD}"
+          scope:                      GLOBAL
+          username:                   "jenkins"
+      - gitLabApiTokenImpl:
+          apiToken:                   "${ROOT_TOKEN}"
+          description:                "Root api key for gitlab"
+          id:                         "root-gitlab"
+          scope:                      GLOBAL
 jenkins:
   agentProtocols:
   - "JNLP4-connect"
@@ -80,8 +101,19 @@ unclassified:
     watchingEnabled:                  false
   gitHubPluginConfig:
     hookUrl:                          "http://jenkins.docker.local/github-webhook/"
+  gitLabConnectionConfig:
+    connections:
+    - apiTokenId:                     "root-gitlab"
+      clientBuilderId:                "autodetect"
+      connectionTimeout:              10
+      ignoreCertificateErrors:        false
+      name:                           "gitlab-docker"
+      readTimeout:                    10
+      url:                            "http://gitlab.docker.local"
   gitSCM:
     createAccountBasedOnEmail:        false
+    globalConfigEmail:                "jenkins@localhost"
+    globalConfigName:                 "leeroy.jenkins"
   location:
     adminAddress:                     "admin@localhost"
     url:                              "http://jenkins.docker.local/"
@@ -90,6 +122,14 @@ unclassified:
     useSsl:                           false
   pollSCM:
     pollingThreadCount:               10
+  # sonarGlobalConfiguration:
+  #   buildWrapperEnabled:            false
+  #   installations:
+  #   - name:                         "sonar-docker"
+  #     serverUrl:                    "http://sonar.docker.local"
+  #     triggers:
+  #       skipScmCause:               false
+  #       skipUpstreamCause:          false
   timestamperConfig:
     allPipelines:                     false
     elapsedTimeFormat:                "'<b>'HH:mm:ss.S'</b> '"

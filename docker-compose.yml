@@ -84,6 +84,9 @@ services:
     container_name: "jenkins"
     depends_on:
       - portainer
+    environment:
+      JENKINS_PASSWORD: "password1*"
+      ROOT_TOKEN: "iwvzSFq95jCfkGniPVbz"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/login"]
       interval: 90s
