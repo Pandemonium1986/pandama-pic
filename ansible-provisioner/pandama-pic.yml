@@ -22,6 +22,11 @@
         groups:          "{{ item.user_groups | default (item.user_name) }}"
         password:        "{{ item.user_password }}"
         state:           present
+        generate_ssh_key: yes
+        ssh_key_bits:     4096
+        ssh_key_comment:  "insecure_key_{{ item.user_name }}"
+        ssh_key_file:     .ssh/id_rsa
+        ssh_key_type:     rsa
         update_password: always
       loop:              "{{ pic_users|flatten(levels=1) }}"
     - name:              Upgrade all packages to the latest version
