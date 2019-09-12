@@ -122,14 +122,14 @@ unclassified:
     useSsl:                           false
   pollSCM:
     pollingThreadCount:               10
-  # sonarGlobalConfiguration:
-  #   buildWrapperEnabled:            false
-  #   installations:
-  #   - name:                         "sonar-docker"
-  #     serverUrl:                    "http://sonar.docker.local"
-  #     triggers:
-  #       skipScmCause:               false
-  #       skipUpstreamCause:          false
+  sonarGlobalConfiguration:
+    buildWrapperEnabled:              true
+    installations:
+    - name:                           "sonar"
+      serverUrl:                      "http://sonar.docker.local"
+      triggers:
+        skipScmCause:                 false
+        skipUpstreamCause:            false
   timestamperConfig:
     allPipelines:                     false
     elapsedTimeFormat:                "'<b>'HH:mm:ss.S'</b> '"
