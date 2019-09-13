@@ -87,6 +87,7 @@ services:
     environment:
       JENKINS_PASSWORD: "password1*"
       ROOT_TOKEN: "iwvzSFq95jCfkGniPVbz"
+      ADMIN_TOKEN: "45a034db9e0e27f7693edf840e18c4e66e62bc02"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/login"]
       interval: 90s
