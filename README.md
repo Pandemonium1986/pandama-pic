@@ -5,44 +5,44 @@
 ![](https://img.shields.io/github/release-date/Pandemonium1986/pandama-pic.svg)
 ![](https://img.shields.io/github/license/Pandemonium1986/pandama-pic.svg)
 
-Generate a software factory using vagrant and docker.  
+Generate a software factory using vagrant, ansible and docker.  
 
 ## Getting Started
 
 This project start a virtualbox vm from my pandama base box [pandemonium/pandama](https://app.vagrantup.com/pandemonium/boxes/pandama).  
-He gives a software factory, provide by docker with this tools :
+He instantiate a software factory, provided by docker and ansible with this tools :
 
-**Traefik (Done)**  
+**Traefik**  
 
 > Traefik is a modern HTTP reverse proxy and load balancer that makes deploying microservices easy. Traefik integrates with your existing infrastructure components (Docker, Swarm mode, Kubernetes, Marathon, Consul, Etcd, Rancher, Amazon ECS, ...) and configures itself automatically and dynamically. Pointing Traefik at your orchestrator should be the only configuration step you need.
 
 Use as HTTP reverse proxy. To easily connect to the service expose by the running containers.  
 
-**Portainer (Done)**  
+**Portainer**  
 
 > Portainer is a lightweight management toolset that allows you to easily build, manage and maintain Docker environments.
 
 Use to manage easily running containers. Currently the software factory is managed and deployed by docker compose and will be managed and deployed into swarm in a next version.  
 
-**Gitlab 12. (Done)**  
+**Gitlab**  
 
 > GitLab is a single application for the entire software development lifecycle. From project planning and source code management to CI/CD, monitoring, and security
 
 Use as the source management code tool.  
 
-**Jenkins 2. (Done)**  
+**Jenkins**  
 
 > Jenkins is an open source automation server with an unparalleled plugin ecosystem to support practically every tool as part of your delivery pipelines. Whether your goal is continuous integration, continuous delivery or something else entirely, Jenkins can help automate it.
 
 Use as the continuous integration tool.  
 
-**Nexus 3. (Done)**  
+**Nexus 3**  
 
 > Nexus Repository Manager lets you proxy remote repositories and host internal artifacts. Check out our quick start guides and deep-dive technical articles to help you get the most value out of Nexus Repository.
 
 Use as the components archives tool.  
 
-**Sonarqube 7. (Done)**  
+**Sonarqube**  
 
 > SonarQube provides the capability to not only show health of an application but also to highlight issues newly introduced. With a Quality Gate in place, you can fix the leak and therefore improve code quality systematically.
 
@@ -52,6 +52,7 @@ Use to measure quality of projects based on SQALE method.
 
 -   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
 -   [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
+-   [Vagrant Env plugin](https://github.com/gosuri/vagrant-env) - This is a Vagrant plugin to load environment variables from .env into ENV.
 
 You can read official documentation for installation instruction and read my cheatsheet.  
 
@@ -83,6 +84,13 @@ If you want to access to the vm after 'up' use
 vagrant ssh
 ```
 
+The box is available pre-built and configured via vagrant cloud.
+
+```sh
+vagrant init Pandemonium1986/pandama-pic
+vagrant up
+```
+
 ### Important note
 
 "pandama-pic" is provisioning with the vagrant docker provisioner.  
@@ -98,6 +106,15 @@ To manually run the factory :
 cd /vagrant
 docker-compose up -d
 ```
+
+## Manual actions
+
+There are (still ...) some manual actions to perform if you want to correctly build and configure you factory.
+
+-   Generate the gitlab api token for root user.
+-   Activate insecure webhooks on gitlab [see this](https://docs.gitlab.com/ee/security/webhooks.html)
+-   Generate the sonarqube token for admin user.
+-   Modify sonarqube and gitlab token in security settings of jenkins.
 
 ## Provisioning and configuring the tools
 
@@ -174,6 +191,18 @@ You need to add this line in your host /etc/hosts :
 | [Portainer](http://portainer.docker.local) | portainer.docker.local / 192.168.66.11 |     9000    |
 |   [Traefik](http://traefik.docker.local)   |  traefik.docker.local / 192.168.66.11  |     8080    |
 |  [Sonarqube 7](http://sonar.docker.local)  |  19sonar.docker.local / 192.168.66.11  |     9000    |
+
+## How to use
+
+Each tools and the box are configured with the same groups of users
+
+|  Login  |       Name      |
+| :-----: | :-------------: |
+|  admin  | Admin Powerfull |
+|  alice  |  Alice Liddell  |
+|   bob   |    Bob Morane   |
+| charlie |  Charlie Hebdo  |
+| jenkins |  Leeroy Jenkins |
 
 ## Authors
 
