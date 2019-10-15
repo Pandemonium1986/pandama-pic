@@ -194,7 +194,7 @@ You need to add this line in your host /etc/hosts :
 
 ## How to use
 
-Each tools and the box are configured with the same groups of users
+Each tools and the box are configured with the same groups of users excepted traefik.
 
 |  Login  |       Name      |
 | :-----: | :-------------: |

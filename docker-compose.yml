@@ -112,41 +112,73 @@ services:
     volumes:
       - jenkins-home:/var/jenkins_home
 
-  gitlab:
-    container_name: "gitlab"
+  # gitlab:
+  #   container_name: "gitlab"
+  #   depends_on:
+  #     - portainer
+  #   environment:
+  #     GITLAB_OMNIBUS_CONFIG: |
+  #       external_url 'http://gitlab.docker.local'
+  #       gitlab_rails['gitlab_shell_ssh_port'] = 23
+  #       gitlab_rails['initial_root_password'] = "password1*"
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost"]
+  #     interval: 90s
+  #     timeout: 30s
+  #     retries: 3
+  #     start_period: 60s
+  #   hostname: "gitlab"
+  #   image: "gitlab/gitlab-ce:${GITLAB_TAG}"
+  #   labels:
+  #     com.pandama-pic.status: "stable"
+  #     traefik.docker.network: pandama-net
+  #     traefik.enable: true
+  #     traefik.frontend.rule: "Host:gitlab.docker.local"
+  #     traefik.port: 80
+  #   networks:
+  #     - pandama-net
+  #   ports:
+  #     - '81:80'
+  #     - '443:443'
+  #     - '23:22'
+  #   restart: always
+  #   stop_grace_period: 30s
+  #   volumes:
+  #     - gitlab-config:/etc/gitlab
+  #     - gitlab-logs:/var/log/gitlab
+  #     - gitlab-data:/var/opt/gitlab
+
+  gitea:
+    container_name: "gitea"
     depends_on:
       - portainer
     environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://gitlab.docker.local'
-        gitlab_rails['gitlab_shell_ssh_port'] = 23
-        gitlab_rails['initial_root_password'] = "password1*"
+      APP_NAME: "Gitea: pandama-pic"
+      SSH_PORT: "23"
+      ROOT_URL: "http://gitea.docker.local"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 90s
       timeout: 30s
       retries: 3
       start_period: 60s
-    hostname: "gitlab"
-    image: "gitlab/gitlab-ce:${GITLAB_TAG}"
+    hostname: gitea
+    image: gitea/gitea:${GITEA_TAG}
     labels:
-      com.pandama-pic.status: "stable"
+      com.pandama-pic.status: "development"
       traefik.docker.network: pandama-net
       traefik.enable: true
-      traefik.frontend.rule: "Host:gitlab.docker.local"
-      traefik.port: 80
+      traefik.frontend.rule: "Host:gitea.docker.local"
+      traefik.port: 3000
     networks:
       - pandama-net
     ports:
-      - '81:80'
-      - '443:443'
-      - '23:22'
+      - "3000:3000"
+      - "23:22"
     restart: always
     stop_grace_period: 30s
     volumes:
-      - gitlab-config:/etc/gitlab
-      - gitlab-logs:/var/log/gitlab
-      - gitlab-data:/var/opt/gitlab
+      - gitea-data:/data
 
   sonarqube:
     container_name: "sonarqube"
@@ -190,18 +222,22 @@ networks:
       com.pandama-pic.status: "stable"
 
 volumes:
-  gitlab-config:
+  # gitlab-config:
+  #   labels:
+  #     com.pandama-pic.status: "stable"
+  #   name: gitlab-config
+  # gitlab-data:
+  #   labels:
+  #     com.pandama-pic.status: "stable"
+  #   name: gitlab-data
+  # gitlab-logs:
+  #   labels:
+  #     com.pandama-pic.status: "stable"
+  #   name: gitlab-logs
+  gitea-data:
     labels:
-      com.pandama-pic.status: "stable"
-    name: gitlab-config
-  gitlab-data:
-    labels:
-      com.pandama-pic.status: "stable"
-    name: gitlab-data
-  gitlab-logs:
-    labels:
-      com.pandama-pic.status: "stable"
-    name: gitlab-logs
+      com.pandama-pic.status: "development"
+    name: gitea-data
   jenkins-home:
     labels:
       com.pandama-pic.status: "stable"

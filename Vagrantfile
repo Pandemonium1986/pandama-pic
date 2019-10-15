@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "docker" do |d|
+    d.pull_images "gitea:"+ENV["GITEA_TAG"]
     d.pull_images "gitlab/gitlab-ce:"+ENV["GITLAB_TAG"]
     d.pull_images "jenkins/jenkins:"+ENV["JENKINS_TAG"]
     d.pull_images "portainer/portainer:"+ENV["PORTAINER_TAG"]
@@ -28,7 +29,7 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "ansible-provisioner/pandama-pic.yml"
   end
 
-  config.vm.provision "shell-docker-compose", type: "shell", run: "always" do |shell|
+  config.vm.provision "shell-docker-compose", type: "shell", run: "never" do |shell|
      shell.path = "shell-provisioner/docker-compose.sh"
      shell.keep_color = "true"
      shell.name = "docker-compose"

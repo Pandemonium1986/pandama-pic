@@ -45,7 +45,7 @@
         path:            /etc/hosts
         state:           present
         insertafter:     '^127.0.1.1'
-        line:            '127.1.1.1 traefik.docker.local portainer.docker.local nexus.docker.local jenkins.docker.local gitlab.docker.local sonar.docker.local'
+        line:            '127.1.1.1 traefik.docker.local portainer.docker.local nexus.docker.local jenkins.docker.local gitlab.docker.local gitea.docker.local sonar.docker.local'
     - name:              Ensure softwares are configured
       block:
         - name:          Ensure oh my zsh is install
