@@ -13,8 +13,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "docker" do |d|
-    d.pull_images "gitea:"+ENV["GITEA_TAG"]
-    d.pull_images "gitlab/gitlab-ce:"+ENV["GITLAB_TAG"]
+    d.pull_images "gitea/gitea:"+ENV["GITEA_TAG"]
     # d.pull_images "gitlab/gitlab-ce:"+ENV["GITLAB_TAG"]
     d.pull_images "jenkins/jenkins:"+ENV["JENKINS_TAG"]
     d.pull_images "portainer/portainer:"+ENV["PORTAINER_TAG"]
