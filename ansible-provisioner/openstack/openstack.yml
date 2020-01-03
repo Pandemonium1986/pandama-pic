@@ -33,90 +33,92 @@
     #################
     - name:                     "Ensure openstack network is created"
       os_network:
-        admin_state_up:         true
-        external:               false
-        interface:              public
-        mtu:                    1450
         name:                   "{{ openstack_project_name }}-net"
-        region_name:            RegionOne
-        shared:                 false
         state:                  present
+        external:               false
+        mtu:                    1450
     - name:                     "Ensure openstack subnet is created"
       os_subnet:
+        name:                   "{{ openstack_project_name }}-snet"
         state:                  present
         network_name:           "{{ openstack_project_name }}-net"
-        name:                   "{{ openstack_project_name }}-snet"
         cidr:                   192.168.86.0/24
         enable_dhcp:            true
     - name:                     "Ensure openstack router is created"
       os_router:
-        admin_state_up:         true
-        state:                  present
         name:                   "{{ openstack_project_name }}-rt"
-        network:                external-public
+        state:                  present
+        network:                external-public               # TODO : variables
         interfaces:
           - "{{ openstack_project_name }}-snet"
     - name:                     "Ensure openstack network security group is created"
       os_security_group:
-        state:                  present
         name:                   "{{ openstack_project_name }}-nsg"
+        state:                  present
         description:            "{{ openstack_project_name }} network security group"
     - name:                     "Ensure openstack icmp rule is created"
       os_security_group_rule:
+        security_group:         "{{ openstack_project_name }}-nsg"
         state:                  present
         direction:              ingress
         ethertype:              IPv4
         interface:              public
-        security_group:         "{{ openstack_project_name }}-nsg"
         protocol:               icmp
         remote_ip_prefix:       0.0.0.0/0
     - name:                     "Ensure openstack tcp rules are created"
       os_security_group_rule:
+        security_group:         "{{ openstack_project_name }}-nsg"
         state:                  present
         direction:              ingress
         ethertype:              IPv4
         interface:              public
-        security_group:         "{{ openstack_project_name }}-nsg"
-        protocol:               tcp
-        port_range_min:         "{{ item }}"
         port_range_max:         "{{ item }}"
+        port_range_min:         "{{ item }}"
+        protocol:               tcp
         remote_ip_prefix:       0.0.0.0/0
       loop:                     [22,80,443]
     - name:                     "Ensure openstack key pair is created"
       os_keypair:
-        state:                  present
         name:                   "{{ openstack_project_name }}-key"
+        state:                  present
       register:                 res_os_keypair
     - name:                     "Ensure that the public key is backed up if it has been created"
       copy:
         content:                "{{ res_os_keypair.key.public_key }}"
         dest:                   "~/.ssh/{{ openstack_project_name }}.pub"
         mode:                   '0644'
-      when:                     res_os_keypair.changed
+      when:                     res_os_keypair.changed|bool == true
     - name:                     "Ensure that the private key is backed up if it has been created"
       copy:
         content:                "{{ res_os_keypair.key.private_key }}"
         dest:                   "~/.ssh/{{ openstack_project_name }}"
         mode:                   '0600'
       when:                     res_os_keypair.changed
-
+    - name:                     "Ensure openstack server group is created"
+      os_server_group:
+        name:                   "{{ openstack_project_name }}-srg"
+        state:                  present
+        policies:
+          - affinity
     - name:                     "Ensure openstack instance is created"
       os_server:
-        auto_ip:                true
-        boot_from_volume:       true
-        # boot_volume
-        delete_fip:             true
-        flavor:                 "small"
-        # floating_ips
-        state:                  present
         name:                   "{{ openstack_project_name }}-vm"
-        image:                  "debian10"
+        state:                  present
+        auto_ip:                true                          # TODO : variables
+        boot_from_volume:       true
+        delete_fip:             true                          # TODO : variables si auto_ip
+        flavor:                 "small"                       # TODO : variables
+        # floating_ips                                        # TODO : variables
+        image:                  "debian10"                    # TODO : variables
         key_name:               "{{ openstack_project_name }}-key"
         timeout:                200
         terminate_volume:       true
-        volume_size:            20
+        volume_size:            20                            # TODO : variables
+        # scheduler_hints:
+        #   group:              "{{ openstack_project_name }}-srg"
         security_groups:        "{{ openstack_project_name }}-nsg"
         network:                "{{ openstack_project_name }}-net"
         meta:
-           hostname:            test1
-           group:               uge_master
+           hostname:            "{{ openstack_project_name }}-vm"
+           group:               "{{ openstack_project_name }}-srg"
+           image:               "debian10"
