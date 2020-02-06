@@ -6,7 +6,8 @@
   vars:
     openstack_config_file_path: "~/.config/openstack/clouds.yaml"
     openstack_cloud_name:       "devolab"
-    openstack_project_name:     "pandama2"
+    openstack_project_name:     "pandama"
+    openstack_vms:              [ "pandama01", "pandama02", "pandama03", "pandama04", "pandama05" ]
   tasks:
 
     ####################
@@ -102,12 +103,12 @@
           - affinity
     - name:                     "Ensure openstack instance is created"
       os_server:
-        name:                   "{{ openstack_project_name }}-vm"
+        name:                   "{{ item }}-vm"
         state:                  present
         auto_ip:                true                          # TODO : variables
         boot_from_volume:       true
         delete_fip:             true                          # TODO : variables si auto_ip
-        flavor:                 "small"                       # TODO : variables
+        flavor:                 "large"                       # TODO : variables
         # floating_ips                                        # TODO : variables
         image:                  "debian10"                    # TODO : variables
         key_name:               "{{ openstack_project_name }}-key"
@@ -122,3 +123,4 @@
            hostname:            "{{ openstack_project_name }}-vm"
            group:               "{{ openstack_project_name }}-srg"
            image:               "debian10"
+      loop: "{{ openstack_vms }}"
