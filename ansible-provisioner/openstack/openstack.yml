@@ -1,126 +1,29 @@
 ---
-- name :                        Openstack deployement for pandama-pic
-  hosts:                        all
-  gather_facts:                 false
-  become:                       false
+- name :                                     Openstack deployement for pandama-pic
+  hosts:                                     local
+  become:                                    false
   vars:
-    openstack_config_file_path: "~/.config/openstack/clouds.yaml"
-    openstack_cloud_name:       "devolab"
-    openstack_project_name:     "pandama"
-    openstack_vms:              [ "pandama01", "pandama02", "pandama03", "pandama04", "pandama05" ]
+    os_users:
+      - pandemonium
+    openstack_project_name:                  "pandama"
+    openstack_vms:
+      - { name: "pandama01", flavor: "large", image: "debian10", auto_ip: true, delete_fip: true, volume_size: 30 }
+      - { name: "pandama02", flavor: "large", image: "debian10", auto_ip: true, delete_fip: true, volume_size: 30 }
+      - { name: "pandama03", flavor: "large", image: "debian10", auto_ip: true, delete_fip: true, volume_size: 30 }
+
   tasks:
-
-    ####################
-    ### Prerequisite ###
-    ####################
-    - name:                     Ensure openstacksdk is installed
-      pip:
-        name:                   openstacksdk
-      delegate_to:              localhost
-    - name:                     Ensure clouds.yaml is present on control node via stat
-      stat:
-        path:                   "{{ openstack_config_file_path }}"
-      register:                 oscfp_result
-      delegate_to:              localhost
-    - name:                     Ensure clouds.yaml is present on control node via assert
-      assert:
-        that:
-          - oscfp_result.stat.exists|bool == true
-        fail_msg:               "{{ openstack_config_file_path }}file is missing. Thank you for creating it"
-        success_msg:            "{{ openstack_config_file_path }}file is available."
-
-    #################
-    ### OpenStack ###
-    #################
-    - name:                     "Ensure openstack network is created"
-      os_network:
-        name:                   "{{ openstack_project_name }}-net"
-        state:                  present
-        external:               false
-        mtu:                    1450
-    - name:                     "Ensure openstack subnet is created"
-      os_subnet:
-        name:                   "{{ openstack_project_name }}-snet"
-        state:                  present
-        network_name:           "{{ openstack_project_name }}-net"
-        cidr:                   192.168.86.0/24
-        enable_dhcp:            true
-    - name:                     "Ensure openstack router is created"
-      os_router:
-        name:                   "{{ openstack_project_name }}-rt"
-        state:                  present
-        network:                external-public               # TODO : variables
-        interfaces:
-          - "{{ openstack_project_name }}-snet"
-    - name:                     "Ensure openstack network security group is created"
-      os_security_group:
-        name:                   "{{ openstack_project_name }}-nsg"
-        state:                  present
-        description:            "{{ openstack_project_name }} network security group"
-    - name:                     "Ensure openstack icmp rule is created"
-      os_security_group_rule:
-        security_group:         "{{ openstack_project_name }}-nsg"
-        state:                  present
-        direction:              ingress
-        ethertype:              IPv4
-        interface:              public
-        protocol:               icmp
-        remote_ip_prefix:       0.0.0.0/0
-    - name:                     "Ensure openstack tcp rules are created"
-      os_security_group_rule:
-        security_group:         "{{ openstack_project_name }}-nsg"
-        state:                  present
-        direction:              ingress
-        ethertype:              IPv4
-        interface:              public
-        port_range_max:         "{{ item }}"
-        port_range_min:         "{{ item }}"
-        protocol:               tcp
-        remote_ip_prefix:       0.0.0.0/0
-      loop:                     [22,80,443]
-    - name:                     "Ensure openstack key pair is created"
-      os_keypair:
-        name:                   "{{ openstack_project_name }}-key"
-        state:                  present
-      register:                 res_os_keypair
-    - name:                     "Ensure that the public key is backed up if it has been created"
-      copy:
-        content:                "{{ res_os_keypair.key.public_key }}"
-        dest:                   "~/.ssh/{{ openstack_project_name }}.pub"
-        mode:                   '0644'
-      when:                     res_os_keypair.changed|bool == true
-    - name:                     "Ensure that the private key is backed up if it has been created"
-      copy:
-        content:                "{{ res_os_keypair.key.private_key }}"
-        dest:                   "~/.ssh/{{ openstack_project_name }}"
-        mode:                   '0600'
-      when:                     res_os_keypair.changed
-    - name:                     "Ensure openstack server group is created"
-      os_server_group:
-        name:                   "{{ openstack_project_name }}-srg"
-        state:                  present
-        policies:
-          - affinity
-    - name:                     "Ensure openstack instance is created"
-      os_server:
-        name:                   "{{ item }}-vm"
-        state:                  present
-        auto_ip:                true                          # TODO : variables
-        boot_from_volume:       true
-        delete_fip:             true                          # TODO : variables si auto_ip
-        flavor:                 "large"                       # TODO : variables
-        # floating_ips                                        # TODO : variables
-        image:                  "debian10"                    # TODO : variables
-        key_name:               "{{ openstack_project_name }}-key"
-        timeout:                200
-        terminate_volume:       true
-        volume_size:            20                            # TODO : variables
-        # scheduler_hints:
-        #   group:              "{{ openstack_project_name }}-srg"
-        security_groups:        "{{ openstack_project_name }}-nsg"
-        network:                "{{ openstack_project_name }}-net"
-        meta:
-           hostname:            "{{ openstack_project_name }}-vm"
-           group:               "{{ openstack_project_name }}-srg"
-           image:               "debian10"
-      loop: "{{ openstack_vms }}"
+    - import_role:
+        name:                                pandemonium1986.os_requirements
+      vars:
+        osrequirements_users:                "{{ os_users }}"
+    - import_role:
+        name:                                pandemonium1986.os_appliances
+      vars:
+        osappliances_users:                  "{{ os_users }}"
+        osappliances_openstack_project_name: "{{ openstack_project_name }}"
+    - import_role:
+        name:                                pandemonium1986.os_vms
+      vars:
+        osvms_users:                         "{{ os_users }}"
+        osvms_openstack_project_name:        "{{ openstack_project_name }}"
+        osvms_vms:                           "{{ openstack_vms }}"
