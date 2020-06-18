@@ -7,13 +7,14 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", ip: "192.168.66.11"
 
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "6144"
+    vb.memory = "8192"
     vb.name = "pandama-pic"
     vb.cpus = 2
   end
 
   config.vm.provision "docker" do |d|
-    d.pull_images "gitlab/gitlab-ce:"+ENV["GITLAB_TAG"]
+    d.pull_images "gitea/gitea:"+ENV["GITEA_TAG"]
+    # d.pull_images "gitlab/gitlab-ce:"+ENV["GITLAB_TAG"]
     d.pull_images "jenkins/jenkins:"+ENV["JENKINS_TAG"]
     d.pull_images "portainer/portainer:"+ENV["PORTAINER_TAG"]
     d.pull_images "sonarqube:"+ENV["SONARQUBE_TAG"]
@@ -28,7 +29,7 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "ansible-provisioner/pandama-pic.yml"
   end
 
-  config.vm.provision "shell-docker-compose", type: "shell", run: "always" do |shell|
+  config.vm.provision "shell-docker-compose", type: "shell", run: "never" do |shell|
      shell.path = "shell-provisioner/docker-compose.sh"
      shell.keep_color = "true"
      shell.name = "docker-compose"

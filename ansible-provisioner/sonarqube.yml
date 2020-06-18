@@ -11,7 +11,7 @@
   tasks:
     - name:                       Ensure httpie is installed
       pip:
-        name:                     httpie
+        name:                     httpie==1.0.3
     - name:                       Ensure sonarqube is configured
       shell:                      "/vagrant/sonarqube/sonarqube.sh > /var/log/sonarqube.log"
       args:

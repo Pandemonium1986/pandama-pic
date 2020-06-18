@@ -1,0 +1,22 @@
+---
+- name :                              Openstack deployement for pandama-pic
+  hosts:                              local
+  become:                             true
+  vars:
+    os_users:
+      - pandemonium
+    openstack_project_name:           "pandama"
+    openstack_vms:
+      - { name: "pandama01", flavor: "large", image: "debian10", auto_ip: true, delete_fip: true, volume_size: 30 }
+      - { name: "pandama02", flavor: "large", image: "debian10", auto_ip: true, delete_fip: true, volume_size: 30 }
+      - { name: "pandama03", flavor: "large", image: "debian10", auto_ip: true, delete_fip: true, volume_size: 30 }
+
+  tasks:
+    - import_role:
+        name:                         pandemonium1986.os_vms
+      vars:
+        osappliances_users:           "{{ os_users }}"
+        osrequirements_users:         "{{ os_users }}"
+        osvms_users:                  "{{ os_users }}"
+        osvms_openstack_project_name: "{{ openstack_project_name }}"
+        osvms_vms:                    "{{ openstack_vms }}"

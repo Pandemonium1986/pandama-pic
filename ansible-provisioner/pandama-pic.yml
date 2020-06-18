@@ -22,6 +22,11 @@
         groups:          "{{ item.user_groups | default (item.user_name) }}"
         password:        "{{ item.user_password }}"
         state:           present
+        generate_ssh_key: yes
+        ssh_key_bits:     4096
+        ssh_key_comment:  "insecure_key_{{ item.user_name }}"
+        ssh_key_file:     .ssh/id_rsa
+        ssh_key_type:     rsa
         update_password: always
       loop:              "{{ pic_users|flatten(levels=1) }}"
     - name:              Upgrade all packages to the latest version
@@ -40,7 +45,7 @@
         path:            /etc/hosts
         state:           present
         insertafter:     '^127.0.1.1'
-        line:            '127.1.1.1 traefik.docker.local portainer.docker.local nexus.docker.local jenkins.docker.local gitlab.docker.local sonar.docker.local'
+        line:            '127.1.1.1 traefik.docker.local portainer.docker.local nexus.docker.local jenkins.docker.local gitlab.docker.local gitea.docker.local sonar.docker.local'
     - name:              Ensure softwares are configured
       block:
         - name:          Ensure oh my zsh is install

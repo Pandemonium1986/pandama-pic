@@ -1,3 +1,29 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          description:                "Jenkins account for gitlab"
+          id:                         "jenkins-gitlab"
+          password:                   "${JENKINS_PASSWORD}"
+          scope:                      GLOBAL
+          username:                   "jenkins"
+      - usernamePassword:
+          description:                "Jenkins account for sonarqube"
+          id:                         "jenkins-sonar"
+          password:                   "${JENKINS_PASSWORD}"
+          scope:                      GLOBAL
+          username:                   "jenkins"
+      - gitLabApiTokenImpl:
+          apiToken:                   "${ROOT_TOKEN}"
+          description:                "Root api key for gitlab"
+          id:                         "root-gitlab"
+          scope:                      GLOBAL
+      - string:
+          description:                "Admin token for sonar"
+          id:                         "admin-sonar"
+          scope:                      GLOBAL
+          secret:                     "${ADMIN_TOKEN}"
 jenkins:
   agentProtocols:
   - "JNLP4-connect"
@@ -45,15 +71,6 @@ jenkins:
   - all:
       name:                           "all"
   viewsTabBar:                        "standard"
-security:
-  apiToken:
-    creationOfLegacyTokenEnabled:     false
-    tokenGenerationOnCreationEnabled: false
-    usageStatisticsEnabled:           true
-  downloadSettings:
-    useBrowser:                       false
-  sSHD:
-    port:                             -1
 unclassified:
   bitbucketEndpointConfiguration:
     endpoints:
@@ -80,21 +97,51 @@ unclassified:
     watchingEnabled:                  false
   gitHubPluginConfig:
     hookUrl:                          "http://jenkins.docker.local/github-webhook/"
+  gitLabConnectionConfig:
+    connections:
+    - apiTokenId:                     "root-gitlab"
+      clientBuilderId:                "autodetect"
+      connectionTimeout:              10
+      ignoreCertificateErrors:        false
+      name:                           "gitlab-docker"
+      readTimeout:                    10
+      url:                            "http://gitlab.docker.local"
   gitSCM:
     createAccountBasedOnEmail:        false
+    globalConfigEmail:                "jenkins@localhost"
+    globalConfigName:                 "leeroy.jenkins"
   location:
-    adminAddress:                     "Adresse pas encore configurée <nobody@nowhere>"
+    adminAddress:                     "admin@localhost"
     url:                              "http://jenkins.docker.local/"
   mailer:
-    adminAddress:                     "Adresse pas encore configurée <nobody@nowhere>"
     charset:                          "UTF-8"
     useSsl:                           false
   pollSCM:
     pollingThreadCount:               10
+  sonarGlobalConfiguration:
+    buildWrapperEnabled:              true
+    installations:
+    - credentialsId:                  "admin-sonar"
+      name:                           "sonar"
+      serverUrl:                      "http://sonar.docker.local"
+      serverAuthenticationToken:      ""
+      triggers:
+        skipScmCause:                 false
+        skipUpstreamCause:            false
   timestamperConfig:
     allPipelines:                     false
     elapsedTimeFormat:                "'<b>'HH:mm:ss.S'</b> '"
     systemTimeFormat:                 "'<b>'HH:mm:ss'</b> '"
+  # job:
+  #   - script: >
+  #     multibranchPipelineJob('configuration-as-code') {
+  #         branchSources {
+  #             git {
+  #                 id = 'configuration-as-code'
+  #                 remote('https://github.com/jenkinsci/configuration-as-code-plugin.git')
+  #             }
+  #         }
+  #     }
 tool:
   git:
     installations:
