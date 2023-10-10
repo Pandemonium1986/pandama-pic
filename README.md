@@ -1,9 +1,10 @@
+<!-- markdownlint-disable MD036 -->
 # Pandama-pic
 
-![](https://img.shields.io/github/release/Pandemonium1986/pandama-pic.svg)
-![](https://img.shields.io/github/repo-size/Pandemonium1986/pandama-pic.svg)
-![](https://img.shields.io/github/release-date/Pandemonium1986/pandama-pic.svg)
-![](https://img.shields.io/github/license/Pandemonium1986/pandama-pic.svg)
+![license](https://img.shields.io/github/release/Pandemonium1986/pandama-pic.svg)
+![repo-size](https://img.shields.io/github/repo-size/Pandemonium1986/pandama-pic.svg)
+![release-date](https://img.shields.io/github/release-date/Pandemonium1986/pandama-pic.svg)
+![license](https://img.shields.io/github/license/Pandemonium1986/pandama-pic.svg)
 
 Generate a software factory using vagrant and docker.  
 
@@ -50,21 +51,21 @@ Use to measure quality of projects based on SQALE method.
 
 ### Prerequisites
 
--   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
--   [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) - The only provider available.
+- [Vagrant](https://www.vagrantup.com/downloads.html) - To build and manage the box.
 
 You can read official documentation for installation instruction and read my cheatsheet.  
 
--   [VirtualBox cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/VirtualBox.md).  
--   [Vagrant cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Vagrant.md).  
--   [Docker Compose cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Docker-Compose.md).  
+- [VirtualBox cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/VirtualBox.md).  
+- [Vagrant cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Vagrant.md).  
+- [Docker Compose cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Docker-Compose.md).  
 
 If you are on windows I strongly recommended you to read those links if you want to used the Wsl (Debian in my case). Otherwise use mintty or cmder for vagrant command execution. Better solution is to simply used a linux environment.
 
--   [Wsl cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Wsl.md).  
--   [Manage and configure Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#set-wsl-launch-settings)  
--   [Chmod/Chown WSL Improvements](https://blogs.msdn.microsoft.com/commandline/2018/01/12/chmod-chown-wsl-improvements/)
--   [Vagrant and Wsl](https://www.vagrantup.com/docs/other/wsl.html)
+- [Wsl cheatsheet](https://github.com/Pandemonium1986/cheatsheet/blob/master/Wsl.md).  
+- [Manage and configure Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#set-wsl-launch-settings)  
+- [Chmod/Chown WSL Improvements](https://blogs.msdn.microsoft.com/commandline/2018/01/12/chmod-chown-wsl-improvements/)
+- [Vagrant and Wsl](https://www.vagrantup.com/docs/other/wsl.html)
 
 ### Installing
 
@@ -123,48 +124,50 @@ SONARQUBE_ADMIN_PASSWORD="MySecretPassword" vagrant provision --provision-with a
 
 He configure portainer with :
 
--   Rename primary endpoint.
--   Add Alice, Bob, Charlie users and Dev and Ops teams.
--   Add Alice and Charlie to Dev team and Bob to Ops team.
--   Give Dev and Ops team members access to the primary endpoint.
+- Rename primary endpoint.
+- Add Alice, Bob, Charlie users and Dev and Ops teams.
+- Add Alice and Charlie to Dev team and Bob to Ops team.
+- Give Dev and Ops team members access to the primary endpoint.
 
 ### Nexus 3
 
 He configure nexus 3 with :
 
--   Create blobstores, maven and npm repositories.
--   Add Alice, Bob, Charlie, Jeenkins users and Dev and Ops roles.
--   Add Alice and Charlie to Dev role and Bob and Jenkins to Ops role.
--   Disable anonymous access.
+- Create blobstores, maven and npm repositories.
+- Add Alice, Bob, Charlie, Jeenkins users and Dev and Ops roles.
+- Add Alice and Charlie to Dev role and Bob and Jenkins to Ops role.
+- Disable anonymous access.
 
 ### Gitlab 12
 
 He configure gitlab 12 with :
 
--   Add Alice, Bob, Charlie users and Dev and Ops groups.
--   Add Alice and Charlie to Dev team and Bob to Ops groups.
+- Add Alice, Bob, Charlie users and Dev and Ops groups.
+- Add Alice and Charlie to Dev team and Bob to Ops groups.
 
 ### Jenkins 2
 
 He configure jenkins 2 with :
 
--   Add Alice, Bob, Charlie users.
--   Installed all recommended plugins.
--   Used JCasC plugin to configure jenkins.
+- Add Alice, Bob, Charlie users.
+- Installed all recommended plugins.
+- Used JCasC plugin to configure jenkins.
 
 ### SonarQube 7
 
 He configure SonarQube 7 with :
 
--   Add Alice, Bob, Charlie users and Dev and Ops groups.
--   Add Alice and Charlie to Dev team and Bob to Ops groups.
--   Remove provisioning to the anyone group
+- Add Alice, Bob, Charlie users and Dev and Ops groups.
+- Add Alice and Charlie to Dev team and Bob to Ops groups.
+- Remove provisioning to the anyone group
 
 ## Navigate into the tools
 
 You need to add this line in your host /etc/hosts :
 
-    192.168.66.11   traefik.docker.local portainer.docker.local nexus.docker.local gitlab.docker.local sonar.docker.local jenkins.docker.local
+```txt
+192.168.66.11   traefik.docker.local portainer.docker.local nexus.docker.local gitlab.docker.local sonar.docker.local jenkins.docker.local
+```
 
 |                    Tools                   |                Fqdn / Ip               |    Ports    |
 | :----------------------------------------: | :------------------------------------: | :---------: |
@@ -177,7 +180,7 @@ You need to add this line in your host /etc/hosts :
 
 ## Authors
 
--   **Michael Maffait** - _Initial work_ - [Pandemonium1986](https://github.com/Pandemonium1986)
+- **Michael Maffait** - _Initial work_ - [Pandemonium1986](https://github.com/Pandemonium1986)
 
 ## License
 
